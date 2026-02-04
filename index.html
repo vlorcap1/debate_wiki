@@ -165,6 +165,135 @@
             text-decoration: underline;
         }
 
+        /* Wikipedia Section */
+        .wiki-section {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        .wiki-section h3 {
+            font-size: 1rem;
+            color: #86efac;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wiki-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .wiki-input {
+            flex: 1;
+            min-width: 280px;
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .wiki-input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .wiki-input:focus {
+            border-color: rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-wiki {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #000;
+            padding: 14px 20px;
+        }
+
+        .wiki-results {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .wiki-result-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .wiki-result-item:hover {
+            background: rgba(34, 197, 94, 0.1);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .wiki-result-item h4 {
+            font-size: 1rem;
+            color: #86efac;
+            margin-bottom: 6px;
+        }
+
+        .wiki-result-item p {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.5);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .wiki-loading {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .selected-article {
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .selected-article h4 {
+            color: #86efac;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .selected-article p {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        .selected-article a {
+            color: #86efac;
+            font-size: 0.85rem;
+            text-decoration: none;
+        }
+
+        .selected-article a:hover {
+            text-decoration: underline;
+        }
+
         /* Controls */
         .controls {
             background: rgba(255,255,255,0.02);
@@ -634,14 +763,22 @@
             </p>
         </div>
 
+        <!-- Wikipedia Search Section -->
+        <div class="wiki-section">
+            <h3>📖 Buscar en Wikipedia</h3>
+            <div class="wiki-row">
+                <input type="text" class="wiki-input" id="wikiSearchInput" placeholder="Buscar artículo en Wikipedia...">
+                <button class="btn-wiki" onclick="searchWikipedia()">🔍 Buscar</button>
+            </div>
+            <div class="wiki-results" id="wikiResults"></div>
+        </div>
+
         <!-- Error Box -->
         <div class="error-box" id="errorBox"></div>
 
         <!-- Controls -->
-        <div class="controls">
+        <div class="controls" id="controlsSection" style="display: none;">
             <div class="controls-row">
-                <input type="text" id="topicInput" placeholder="Ingresa cualquier tema para debatir...">
-                
                 <select id="roundsSelect">
                     <option value="3">3 rondas</option>
                     <option value="5" selected>5 rondas</option>
@@ -651,29 +788,21 @@
                     <option value="20">20 rondas</option>
                 </select>
 
-                <button class="btn-start" id="startBtn" onclick="startDebate()">🎯 Iniciar</button>
+                <button class="btn-start" id="startBtn" onclick="startDebate()">🎯 Iniciar Debate</button>
                 <button class="btn-next hidden" id="nextBtn" onclick="nextTurn()">▶️ Siguiente</button>
                 <button class="btn-auto hidden" id="autoBtn" onclick="toggleAuto()">⚡ Auto</button>
                 <button class="btn-stop hidden" id="stopBtn" onclick="stopDebate()">⏹️</button>
                 <button class="btn-reset hidden" id="resetBtn" onclick="resetDebate()">🔄</button>
             </div>
-
-            <div class="suggestions" id="suggestions">
-                <span>Ideas:</span>
-                <button class="suggestion-btn" onclick="setTopic('¿Deberíamos colonizar Marte?')">Colonizar Marte</button>
-                <button class="suggestion-btn" onclick="setTopic('¿Es ético comer carne?')">Comer carne</button>
-                <button class="suggestion-btn" onclick="setTopic('¿Debería existir la renta básica universal?')">Renta básica</button>
-                <button class="suggestion-btn" onclick="setTopic('¿Las redes sociales hacen más daño que bien?')">Redes sociales</button>
-                <button class="suggestion-btn" onclick="setTopic('¿La IA reemplazará a los humanos en el trabajo?')">IA y trabajo</button>
-                <button class="suggestion-btn" onclick="setTopic('¿Es mejor el trabajo remoto o presencial?')">Trabajo remoto</button>
-            </div>
         </div>
 
         <!-- Topic Card -->
         <div class="article-card" id="articleCard">
+            <img id="articleImage" src="" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 12px; display: none;">
             <div class="article-info">
-                <h2>💬 <span id="articleTitle"></span></h2>
-                <p id="articleExtract">Debate generado en tiempo real por IA</p>
+                <h2>📖 <span id="articleTitle"></span></h2>
+                <p id="articleExtract"></p>
+                <a id="articleLink" href="#" target="_blank" style="color: #86efac; font-size: 0.85rem; text-decoration: none;">Ver en Wikipedia →</a>
             </div>
             <div class="progress-box">
                 <div class="progress-num"><span id="currentRound">0</span>/<span id="maxRounds">5</span></div>
