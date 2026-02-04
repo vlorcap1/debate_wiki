@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Debate Arena - Dos IAs, Perspectivas Opuestas</title>
+    <title>Debate Arena - Dos IAs en Tiempo Real</title>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -42,7 +42,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .badge {
@@ -77,12 +77,101 @@
             margin-top: 12px;
         }
 
+        /* API Key Section */
+        .api-section {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
+        }
+
+        .api-section h3 {
+            font-size: 1rem;
+            color: #a5b4fc;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .api-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .api-input {
+            flex: 1;
+            min-width: 280px;
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: #fff;
+            outline: none;
+            font-family: monospace;
+        }
+
+        .api-input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        .api-input:focus {
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        .api-status {
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .api-status.disconnected {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            color: #FF6B6B;
+        }
+
+        .api-status.connected {
+            background: rgba(0, 229, 160, 0.1);
+            border: 1px solid rgba(0, 229, 160, 0.3);
+            color: #00E5A0;
+        }
+
+        .api-status.testing {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            color: #fbbf24;
+        }
+
+        .api-help {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+        }
+
+        .api-help a {
+            color: #a5b4fc;
+            text-decoration: none;
+        }
+
+        .api-help a:hover {
+            text-decoration: underline;
+        }
+
+        /* Controls */
         .controls {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 24px;
-            padding: 24px;
-            margin-bottom: 24px;
+            border-radius: 20px;
+            padding: 20px 24px;
+            margin-bottom: 20px;
         }
 
         .controls-row {
@@ -95,11 +184,11 @@
         input[type="text"] {
             flex: 1;
             min-width: 200px;
-            padding: 16px 20px;
+            padding: 14px 18px;
             font-size: 1rem;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             outline: none;
             font-family: inherit;
@@ -114,21 +203,21 @@
         }
 
         select {
-            padding: 16px;
+            padding: 14px 16px;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
+            border-radius: 12px;
             color: #fff;
             font-family: inherit;
             cursor: pointer;
         }
 
         button {
-            padding: 16px 28px;
-            font-size: 1rem;
+            padding: 14px 24px;
+            font-size: 0.95rem;
             font-weight: 600;
             border: none;
-            border-radius: 14px;
+            border-radius: 12px;
             cursor: pointer;
             transition: all 0.2s;
             font-family: inherit;
@@ -170,8 +259,14 @@
             color: #000;
         }
 
+        .btn-test {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: #fff;
+            padding: 14px 20px;
+        }
+
         .suggestions {
-            margin-top: 16px;
+            margin-top: 14px;
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
@@ -180,16 +275,16 @@
 
         .suggestions span {
             color: rgba(255,255,255,0.4);
-            font-size: 14px;
+            font-size: 13px;
         }
 
         .suggestion-btn {
-            padding: 8px 14px;
+            padding: 6px 12px;
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
+            border-radius: 16px;
             color: rgba(255,255,255,0.6);
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
         }
 
@@ -198,12 +293,13 @@
             color: #fff;
         }
 
+        /* Article Card */
         .article-card {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            padding: 20px;
-            margin-bottom: 24px;
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 20px;
             display: none;
             gap: 16px;
             align-items: center;
@@ -220,8 +316,8 @@
         }
 
         .article-info h2 {
-            font-size: 1.3rem;
-            margin-bottom: 8px;
+            font-size: 1.2rem;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -229,27 +325,19 @@
 
         .article-info p {
             color: rgba(255,255,255,0.5);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
 
-        .article-info a {
-            color: #00E5A0;
-            font-size: 14px;
-            text-decoration: none;
-            margin-top: 8px;
-            display: inline-block;
-        }
-
         .progress-box {
-            padding: 16px 20px;
+            padding: 14px 18px;
             background: rgba(0,0,0,0.3);
-            border-radius: 12px;
+            border-radius: 10px;
             text-align: center;
         }
 
         .progress-num {
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             background: linear-gradient(135deg, #00E5A0, #FF6B6B);
             -webkit-background-clip: text;
@@ -258,23 +346,22 @@
 
         .progress-label {
             color: rgba(255,255,255,0.4);
-            font-size: 11px;
-            margin-top: 4px;
+            font-size: 10px;
+            margin-top: 2px;
         }
 
+        /* Debaters Intro */
         .debaters {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         .debater {
-            border-radius: 20px;
-            padding: 28px;
+            border-radius: 16px;
+            padding: 24px;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .debater.optimist {
@@ -288,12 +375,12 @@
         }
 
         .debater-avatar {
-            font-size: 3.5rem;
-            margin-bottom: 12px;
+            font-size: 3rem;
+            margin-bottom: 10px;
         }
 
         .debater h3 {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             font-weight: 700;
             letter-spacing: 0.05em;
         }
@@ -303,15 +390,16 @@
 
         .debater p {
             color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             margin-top: 4px;
         }
 
+        /* Messages */
         .messages {
             background: rgba(255,255,255,0.01);
             border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 18px;
             max-height: 500px;
             overflow-y: auto;
             display: none;
@@ -324,7 +412,7 @@
         .messages-list {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 14px;
         }
 
         .message {
@@ -338,13 +426,13 @@
         }
 
         .msg-avatar {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             flex-shrink: 0;
         }
 
@@ -360,31 +448,31 @@
 
         .msg-bubble {
             flex: 1;
-            max-width: 70%;
-            padding: 16px 20px;
+            max-width: 72%;
+            padding: 14px 18px;
         }
 
         .message.optimist .msg-bubble {
             background: rgba(0, 229, 160, 0.05);
             border: 1px solid rgba(0, 229, 160, 0.15);
-            border-radius: 4px 18px 18px 18px;
+            border-radius: 4px 16px 16px 16px;
         }
 
         .message.skeptic .msg-bubble {
             background: rgba(255, 107, 107, 0.05);
             border: 1px solid rgba(255, 107, 107, 0.15);
-            border-radius: 18px 4px 18px 18px;
+            border-radius: 16px 4px 16px 16px;
         }
 
         .msg-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .msg-name {
             font-weight: 700;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 0.05em;
         }
 
@@ -393,20 +481,21 @@
 
         .msg-time {
             color: rgba(255,255,255,0.3);
-            font-size: 0.7rem;
+            font-size: 0.65rem;
         }
 
         .msg-text {
             color: rgba(255,255,255,0.85);
             line-height: 1.6;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
 
+        /* Typing */
         .typing {
             display: none;
             gap: 12px;
             opacity: 0.7;
-            margin-top: 16px;
+            margin-top: 14px;
         }
 
         .typing.visible {
@@ -418,13 +507,13 @@
         }
 
         .typing-avatar {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             animation: pulse 1.5s infinite;
         }
 
@@ -439,8 +528,8 @@
         }
 
         .typing-dots {
-            padding: 16px 24px;
-            border-radius: 18px;
+            padding: 14px 20px;
+            border-radius: 16px;
             display: flex;
             gap: 5px;
             align-items: center;
@@ -457,8 +546,8 @@
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             animation: bounce 1.4s ease-in-out infinite;
         }
@@ -469,15 +558,31 @@
         .dot:nth-child(2) { animation-delay: 0.16s; }
         .dot:nth-child(3) { animation-delay: 0.32s; }
 
+        /* Error message */
+        .error-box {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 12px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            color: #FF6B6B;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error-box.visible {
+            display: block;
+        }
+
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
+            padding: 40px 20px;
             color: rgba(255,255,255,0.3);
         }
 
         .empty-state .icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
+            font-size: 3.5rem;
+            margin-bottom: 14px;
             opacity: 0.5;
         }
 
@@ -495,7 +600,7 @@
 
         @keyframes bounce {
             0%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-6px); }
+            40% { transform: translateY(-5px); }
         }
 
         ::-webkit-scrollbar { width: 6px; }
@@ -508,19 +613,42 @@
 
     <div class="container">
         <header>
-            <div class="badge">⚡ Debate Simulado con IA</div>
+            <div class="badge">🤖 Debates Generados por IA en Tiempo Real</div>
             <h1>DEBATE<span>ARENA</span></h1>
-            <p class="subtitle">Dos IAs. Un tema de Wikipedia. Perspectivas opuestas.</p>
+            <p class="subtitle">Dos IAs. Cualquier tema. Perspectivas opuestas.</p>
         </header>
 
+        <!-- API Key Section -->
+        <div class="api-section">
+            <h3>🔑 Configuración de API</h3>
+            <div class="api-row">
+                <input type="password" class="api-input" id="apiKeyInput" placeholder="Ingresa tu API Key de OpenAI (sk-...)">
+                <button class="btn-test" onclick="testApiKey()">Probar Conexión</button>
+                <div class="api-status disconnected" id="apiStatus">
+                    <span>●</span> <span id="apiStatusText">Sin conectar</span>
+                </div>
+            </div>
+            <p class="api-help">
+                Obtén tu API key en <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>. 
+                Tu clave se guarda solo en tu navegador (localStorage).
+            </p>
+        </div>
+
+        <!-- Error Box -->
+        <div class="error-box" id="errorBox"></div>
+
+        <!-- Controls -->
         <div class="controls">
             <div class="controls-row">
-                <input type="text" id="topicInput" placeholder="Ingresa un tema (ej: Inteligencia Artificial)">
+                <input type="text" id="topicInput" placeholder="Ingresa cualquier tema para debatir...">
                 
                 <select id="roundsSelect">
                     <option value="3">3 rondas</option>
                     <option value="5" selected>5 rondas</option>
                     <option value="7">7 rondas</option>
+                    <option value="10">10 rondas</option>
+                    <option value="15">15 rondas</option>
+                    <option value="20">20 rondas</option>
                 </select>
 
                 <button class="btn-start" id="startBtn" onclick="startDebate()">🎯 Iniciar</button>
@@ -531,19 +659,21 @@
             </div>
 
             <div class="suggestions" id="suggestions">
-                <span>Sugerencias:</span>
-                <button class="suggestion-btn" onclick="setTopic('Inteligencia Artificial')">Inteligencia Artificial</button>
-                <button class="suggestion-btn" onclick="setTopic('Cambio Climático')">Cambio Climático</button>
-                <button class="suggestion-btn" onclick="setTopic('Criptomonedas')">Criptomonedas</button>
-                <button class="suggestion-btn" onclick="setTopic('Redes Sociales')">Redes Sociales</button>
+                <span>Ideas:</span>
+                <button class="suggestion-btn" onclick="setTopic('¿Deberíamos colonizar Marte?')">Colonizar Marte</button>
+                <button class="suggestion-btn" onclick="setTopic('¿Es ético comer carne?')">Comer carne</button>
+                <button class="suggestion-btn" onclick="setTopic('¿Debería existir la renta básica universal?')">Renta básica</button>
+                <button class="suggestion-btn" onclick="setTopic('¿Las redes sociales hacen más daño que bien?')">Redes sociales</button>
+                <button class="suggestion-btn" onclick="setTopic('¿La IA reemplazará a los humanos en el trabajo?')">IA y trabajo</button>
+                <button class="suggestion-btn" onclick="setTopic('¿Es mejor el trabajo remoto o presencial?')">Trabajo remoto</button>
             </div>
         </div>
 
+        <!-- Topic Card -->
         <div class="article-card" id="articleCard">
             <div class="article-info">
-                <h2>📖 <span id="articleTitle"></span></h2>
-                <p id="articleExtract"></p>
-                <a id="articleLink" href="#" target="_blank">Ver en Wikipedia →</a>
+                <h2>💬 <span id="articleTitle"></span></h2>
+                <p id="articleExtract">Debate generado en tiempo real por IA</p>
             </div>
             <div class="progress-box">
                 <div class="progress-num"><span id="currentRound">0</span>/<span id="maxRounds">5</span></div>
@@ -551,6 +681,7 @@
             </div>
         </div>
 
+        <!-- Debaters Intro -->
         <div class="debaters" id="debatersIntro">
             <div class="debater optimist">
                 <div class="debater-avatar">☀️</div>
@@ -564,6 +695,7 @@
             </div>
         </div>
 
+        <!-- Messages -->
         <div class="messages" id="messagesBox">
             <div class="messages-list" id="messagesList"></div>
             
@@ -586,144 +718,143 @@
             </div>
         </div>
 
+        <!-- Empty State -->
         <div class="empty-state" id="emptyState">
             <div class="icon">🎭</div>
-            <p>Ingresa un tema para comenzar el debate</p>
+            <p>Configura tu API key y escribe cualquier tema para debatir</p>
         </div>
     </div>
 
     <script>
-        const DEBATES = {
-            "inteligencia artificial": {
-                title: "Inteligencia Artificial",
-                extract: "La IA es la simulación de procesos de inteligencia humana por máquinas. Incluye aprendizaje automático, procesamiento del lenguaje natural y visión por computadora.",
-                url: "https://es.wikipedia.org/wiki/Inteligencia_artificial",
-                optimist: [
-                    "La IA representa una de las mayores oportunidades para el progreso humano. Desde diagnósticos médicos más precisos hasta la optimización de recursos energéticos, estamos viendo cómo esta tecnología salva vidas y mejora nuestra calidad de vida.",
-                    "Los datos son claros: la IA ha aumentado la productividad global significativamente. Está democratizando el acceso a la educación y la salud. Lejos de reemplazarnos, nos libera de tareas repetitivas para enfocarnos en creatividad y conexión humana.",
-                    "La historia demuestra que cada revolución tecnológica genera más empleos de los que destruye. La IA creará profesiones que ni imaginamos. Lo importante es invertir en educación y adaptación.",
-                    "Respecto a los sesgos, son un reflejo de nuestros propios sesgos, pero la IA nos da la oportunidad de identificarlos y corregirlos sistemáticamente. Es una herramienta de mejora.",
-                    "El futuro con IA será uno donde las enfermedades se detecten antes, la educación se personalice, y tengamos más tiempo para lo que importa. Depende de nosotros guiar esta tecnología hacia el bien común."
-                ],
-                skeptic: [
-                    "Debemos ser cautelosos. La IA actual tiene sesgos graves que perpetúan discriminación en contratación, créditos y justicia penal. Los algoritmos amplifican las desigualdades existentes. ¿Dónde está la evidencia de que esto mejora?",
-                    "El argumento de productividad ignora quién se beneficia realmente. Las ganancias van a corporaciones mientras los trabajadores enfrentan precarización. Un estudio de Oxford estima que el 47% de empleos están en riesgo.",
-                    "La comparación con revoluciones anteriores es engañosa. La velocidad del cambio actual no tiene precedentes, y la concentración de poder en pocas empresas tecnológicas es alarmante.",
-                    "Auditar algoritmos suena bien, pero en la práctica son cajas negras protegidas por secreto comercial. Necesitamos regulación vinculante, no autorregulación voluntaria.",
-                    "Mi posición no es anti-tecnología, sino pro-precaución. Antes de celebrar el futuro utópico, aseguremos derechos digitales, regulación efectiva y distribución justa de beneficios."
-                ]
+        const BOTS = {
+            optimist: {
+                name: "AURORA",
+                avatar: "☀️",
+                system: `Eres Aurora, una debatiente optimista y constructiva en un debate formal. 
+Tu rol es defender la posición POSITIVA/A FAVOR del tema.
+- Busca oportunidades, beneficios y soluciones
+- Usa datos esperanzadores y casos de éxito
+- Sé apasionada pero respetuosa
+- Responde directamente a los argumentos del oponente cuando los haya
+- Máximo 3-4 oraciones por turno
+- Responde siempre en español`
             },
-            "cambio climático": {
-                title: "Cambio Climático",
-                extract: "El cambio climático se refiere a cambios a largo plazo en temperaturas y patrones climáticos, principalmente causados por actividades humanas desde la revolución industrial.",
-                url: "https://es.wikipedia.org/wiki/Cambio_climático",
-                optimist: [
-                    "Estamos en un punto de inflexión histórico. Las energías renovables son ahora más baratas que los combustibles fósiles. La transición verde está creando millones de empleos y las inversiones en tecnología limpia baten récords.",
-                    "El Acuerdo de París demostró que la cooperación global es posible. Más de 130 países se han comprometido con neutralidad de carbono. Las emisiones en Europa ya caen mientras la economía crece.",
-                    "La innovación tecnológica avanza rápidamente: baterías eficientes, hidrógeno verde, captura de carbono. Subestimamos la capacidad humana de resolver problemas cuando hay voluntad.",
-                    "Los jóvenes lideran este cambio con conciencia ambiental sin precedentes. Las empresas responden porque los consumidores lo demandan. El cambio cultural es irreversible.",
-                    "Tenemos las herramientas necesarias. Lo que falta es voluntad política y acción colectiva. La narrativa catastrofista paraliza; necesitamos esperanza activa basada en soluciones reales."
-                ],
-                skeptic: [
-                    "Los compromisos del Acuerdo de París son insuficientes y no vinculantes. Las emisiones globales siguen aumentando. La brecha entre retórica y acción es alarmante.",
-                    "El optimismo sobre renovables ignora la escala del desafío. Seguimos subsidiando combustibles fósiles por billones. La transición al ritmo actual nos llevaría décadas que no tenemos.",
-                    "La tecnología no es solución mágica. La captura de carbono a escala comercial sigue siendo promesa, no realidad. Apostar el futuro a tecnologías inexistentes es negacionismo sofisticado.",
-                    "El cambio de consumo individual es insuficiente. El 70% de emisiones proviene de 100 empresas. Necesitamos cambio sistémico, no solo bolsas reutilizables.",
-                    "No soy pesimista, soy realista. El IPCC advierte consecuencias catastróficas si no actuamos drásticamente AHORA. La esperanza sin acción proporcional es complacencia."
-                ]
-            },
-            "criptomonedas": {
-                title: "Criptomonedas",
-                extract: "Las criptomonedas son monedas digitales que utilizan criptografía para asegurar transacciones. Bitcoin fue la primera en 2009 y desde entonces han surgido miles más.",
-                url: "https://es.wikipedia.org/wiki/Criptomoneda",
-                optimist: [
-                    "Las criptomonedas son la mayor innovación financiera desde internet. Personas sin acceso bancario pueden participar en la economía global. En países con monedas inestables, Bitcoin ofrece refugio contra inflación.",
-                    "Blockchain va más allá del dinero: contratos inteligentes, identidad digital, trazabilidad. Estamos construyendo infraestructura para una economía más transparente y descentralizada.",
-                    "La volatilidad es característica de mercados emergentes. A medida que madura el ecosistema, la estabilidad aumenta. Los ETFs de Bitcoin aprobados demuestran legitimidad creciente.",
-                    "El argumento del consumo energético ignora el contexto. Bitcoin consume menos que el sistema bancario tradicional. Los mineros buscan energía barata, que suele ser renovable.",
-                    "Las criptomonedas devuelven control financiero a los individuos. En un mundo de vigilancia creciente, la privacidad y autonomía que ofrecen son valores democráticos fundamentales."
-                ],
-                skeptic: [
-                    "Las criptomonedas han facilitado ransomware, lavado de dinero y evasión fiscal por miles de millones. ¿Dónde está la evidencia de que su uso legítimo supera el criminal?",
-                    "La promesa de inclusión financiera es mayormente marketing. La mayoría de transacciones son especulación. En países pobres, los que pierden en las caídas son los más vulnerables.",
-                    "La comparación con el dólar es absurda. El dólar tiene respaldo estatal y uso real. El 95% de stablecoins y proyectos cripto han resultado fraudes o han colapsado.",
-                    "Una transacción de Bitcoin consume la energía de un hogar durante semanas. Que algunos mineros usen renovables no cambia el desperdicio fundamental de proof-of-work.",
-                    "La 'autonomía financiera' beneficia principalmente a quienes quieren evadir regulaciones legítimas. Las personas normales necesitan protecciones, no sistemas donde perder tu contraseña significa perder todo."
-                ]
-            },
-            "redes sociales": {
-                title: "Redes Sociales",
-                extract: "Las redes sociales son plataformas digitales que permiten crear perfiles, compartir contenido e interactuar con usuarios a nivel global.",
-                url: "https://es.wikipedia.org/wiki/Red_social",
-                optimist: [
-                    "Las redes han democratizado la comunicación como nunca. Movimientos como la Primavera Árabe o Black Lives Matter no habrían sido posibles sin estas plataformas. Dan voz a quienes antes no la tenían.",
-                    "Para millones, las redes son conexión con familiares lejanos, comunidades de apoyo y oportunidades profesionales. LinkedIn transformó la búsqueda de empleo. Grupos de Facebook conectan pacientes con enfermedades raras.",
-                    "Los problemas de desinformación son reales pero solucionables. Las plataformas invierten en moderación, verificación de hechos y herramientas de bienestar digital. La regulación inteligente puede mejorar sin destruir beneficios.",
-                    "La crítica a las redes viene de nostalgia idealizada. Los medios tradicionales también tenían sesgos y sensacionalismo. Al menos ahora cualquiera puede responder y verificar.",
-                    "Las nuevas generaciones desarrollan alfabetización digital impresionante. Saben distinguir contenido auténtico mejor que sus padres. Usan estas herramientas para activismo y creatividad."
-                ],
-                skeptic: [
-                    "La evidencia sobre impacto en salud mental es alarmante, especialmente en adolescentes. Tasas de depresión y ansiedad han aumentado dramáticamente. Los documentos de Meta reconocen que Instagram es tóxico para adolescentes.",
-                    "El modelo de negocio basado en atención maximizada es perverso. Los algoritmos están diseñados para generar indignación porque genera engagement. No es efecto secundario, es el producto.",
-                    "La desinformación no es problema técnico menor, es crisis democrática. Las redes han amplificado conspiraciones, antivacunas y extremismo. Las inversiones en moderación son cosméticas.",
-                    "Decir que los jóvenes tienen 'alfabetización digital' ignora cómo funciona la manipulación psicológica. Los algoritmos explotan sesgos cognitivos que no podemos 'superar' con educación.",
-                    "La comparación con medios tradicionales es falsa equivalencia. Nunca existió una máquina de radicalización personalizada en el bolsillo de cada ciudadano. La escala es sin precedente."
-                ]
+            skeptic: {
+                name: "UMBRA", 
+                avatar: "🌙",
+                system: `Eres Umbra, un debatiente escéptico y analítico en un debate formal.
+Tu rol es defender la posición CRÍTICA/EN CONTRA o señalar problemas del tema.
+- Cuestiona narrativas dominantes y señala riesgos
+- Pide evidencia rigurosa y considera efectos negativos
+- Sé cauteloso y crítico pero no pesimista irracional
+- Responde directamente a los argumentos del oponente cuando los haya
+- Máximo 3-4 oraciones por turno
+- Responde siempre en español`
             }
         };
 
-        const DEFAULT = {
-            optimist: [
-                "Este tema representa una oportunidad fascinante para el progreso humano. A lo largo de la historia, hemos demostrado capacidad de adaptarnos y encontrar soluciones creativas.",
-                "Los datos muestran tendencias positivas que se ignoran en el debate público. Cuando miramos indicadores objetivos, vemos mejoras significativas.",
-                "La colaboración e innovación han resuelto problemas que parecían imposibles. Tenemos más herramientas, conocimiento y recursos que nunca.",
-                "Las nuevas generaciones abordan estos desafíos con perspectivas frescas. Su compromiso y creatividad son inspiradores.",
-                "Mi optimismo es confianza basada en evidencia histórica. Cada era ha enfrentado crisis y las ha superado."
-            ],
-            skeptic: [
-                "Debemos examinar este tema con rigor crítico. Las narrativas dominantes simplifican realidades complejas y ocultan intereses particulares.",
-                "La evidencia presenta un panorama más matizado. Hay riesgos significativos que no podemos ignorar solo porque son incómodos.",
-                "La historia enseña que soluciones precipitadas generan problemas nuevos. Necesitamos análisis riguroso y regulación adecuada.",
-                "Las promesas de progreso ignoran estructuras de poder que determinan quién gana y quién pierde.",
-                "Mi escepticismo no es pesimismo sino precaución informada. Exigir evidencia y cuestionar supuestos es ser responsable."
-            ]
-        };
-
         let state = {
+            apiKey: localStorage.getItem('openai_api_key') || '',
+            apiConnected: false,
             topic: '',
-            content: null,
             messages: [],
+            conversationHistory: [],
             isDebating: false,
             rounds: 0,
             maxRounds: 5,
-            turnIndex: 0,
+            thinking: false,
             autoMode: false,
-            autoInterval: null,
-            thinking: false
+            autoInterval: null
         };
+
+        // Initialize
+        document.getElementById('apiKeyInput').value = state.apiKey;
+        if (state.apiKey) testApiKey();
 
         function setTopic(t) {
             document.getElementById('topicInput').value = t;
         }
 
-        function getTopicData(topic) {
-            const key = topic.toLowerCase().trim();
-            for (let k in DEBATES) {
-                if (key.includes(k) || k.includes(key)) return DEBATES[k];
-            }
-            return {
-                title: topic.charAt(0).toUpperCase() + topic.slice(1),
-                extract: `${topic} es un tema actual que genera debates desde múltiples perspectivas.`,
-                url: `https://es.wikipedia.org/wiki/${encodeURIComponent(topic)}`,
-                optimist: DEFAULT.optimist,
-                skeptic: DEFAULT.skeptic
-            };
+        function showError(msg) {
+            const box = document.getElementById('errorBox');
+            box.textContent = '⚠️ ' + msg;
+            box.classList.add('visible');
+            setTimeout(() => box.classList.remove('visible'), 5000);
         }
 
-        function getResponse(speaker) {
-            const responses = state.content[speaker];
-            const idx = Math.floor(state.turnIndex / 2);
-            return responses[idx % responses.length];
+        function updateApiStatus(status, text) {
+            const el = document.getElementById('apiStatus');
+            const textEl = document.getElementById('apiStatusText');
+            el.className = 'api-status ' + status;
+            textEl.textContent = text;
+        }
+
+        async function testApiKey() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            if (!key) {
+                updateApiStatus('disconnected', 'Sin conectar');
+                state.apiConnected = false;
+                return;
+            }
+
+            updateApiStatus('testing', 'Probando...');
+
+            try {
+                const res = await fetch('https://api.openai.com/v1/models', {
+                    headers: { 'Authorization': `Bearer ${key}` }
+                });
+
+                if (res.ok) {
+                    state.apiKey = key;
+                    state.apiConnected = true;
+                    localStorage.setItem('openai_api_key', key);
+                    updateApiStatus('connected', 'Conectado ✓');
+                } else {
+                    throw new Error('API key inválida');
+                }
+            } catch (e) {
+                state.apiConnected = false;
+                updateApiStatus('disconnected', 'Error de conexión');
+                showError('No se pudo conectar. Verifica tu API key.');
+            }
+        }
+
+        async function generateResponse(speaker) {
+            const bot = BOTS[speaker];
+            
+            // Build conversation for context
+            const messages = [
+                { role: 'system', content: bot.system },
+                { role: 'user', content: `El tema del debate es: "${state.topic}"\n\n${
+                    state.conversationHistory.length === 0 
+                        ? 'Inicia el debate con tu posición sobre este tema.'
+                        : 'Historial del debate:\n' + state.conversationHistory.map(m => 
+                            `${m.speaker === 'optimist' ? 'Aurora' : 'Umbra'}: ${m.text}`
+                          ).join('\n') + '\n\nResponde al último argumento con tu perspectiva.'
+                }` }
+            ];
+
+            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${state.apiKey}`
+                },
+                body: JSON.stringify({
+                    model: 'gpt-4o-mini',
+                    messages: messages,
+                    max_tokens: 200,
+                    temperature: 0.8
+                })
+            });
+
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.error?.message || 'Error de API');
+            }
+
+            const data = await res.json();
+            return data.choices[0].message.content;
         }
 
         function renderMessage(msg) {
@@ -731,10 +862,10 @@
             const div = document.createElement('div');
             div.className = `message ${msg.speaker}`;
             div.innerHTML = `
-                <div class="msg-avatar">${msg.speaker === 'optimist' ? '☀️' : '🌙'}</div>
+                <div class="msg-avatar">${BOTS[msg.speaker].avatar}</div>
                 <div class="msg-bubble">
                     <div class="msg-header">
-                        <span class="msg-name">${msg.speaker === 'optimist' ? 'AURORA' : 'UMBRA'}</span>
+                        <span class="msg-name">${BOTS[msg.speaker].name}</span>
                         <span class="msg-time">${msg.time}</span>
                     </div>
                     <p class="msg-text">${msg.text}</p>
@@ -755,17 +886,18 @@
         }
 
         function updateUI() {
-            const { isDebating, messages, content, rounds, maxRounds, thinking, autoMode } = state;
+            const { isDebating, messages, rounds, maxRounds, thinking, autoMode, topic } = state;
             
             document.getElementById('startBtn').classList.toggle('hidden', isDebating);
             document.getElementById('nextBtn').classList.toggle('hidden', !isDebating);
             document.getElementById('autoBtn').classList.toggle('hidden', !isDebating);
             document.getElementById('stopBtn').classList.toggle('hidden', !isDebating);
             document.getElementById('resetBtn').classList.toggle('hidden', messages.length === 0);
-            document.getElementById('suggestions').classList.toggle('hidden', !!content);
-            document.getElementById('debatersIntro').classList.toggle('hidden', !!content);
-            document.getElementById('emptyState').classList.toggle('hidden', !!content);
+            document.getElementById('suggestions').classList.toggle('hidden', isDebating);
+            document.getElementById('debatersIntro').classList.toggle('hidden', isDebating);
+            document.getElementById('emptyState').classList.toggle('hidden', isDebating);
             document.getElementById('messagesBox').classList.toggle('visible', messages.length > 0);
+            document.getElementById('articleCard').classList.toggle('visible', isDebating);
             
             document.getElementById('topicInput').disabled = isDebating;
             document.getElementById('roundsSelect').disabled = isDebating;
@@ -788,53 +920,60 @@
             autoBtn.textContent = autoMode ? '⏸️ Pausar' : '⚡ Auto';
             autoBtn.className = autoMode ? 'btn-stop' : 'btn-auto';
             
-            if (content) {
-                document.getElementById('articleCard').classList.add('visible');
-                document.getElementById('articleTitle').textContent = content.title;
-                document.getElementById('articleExtract').textContent = content.extract;
-                document.getElementById('articleLink').href = content.url || '#';
-                document.getElementById('currentRound').textContent = rounds;
-                document.getElementById('maxRounds').textContent = maxRounds;
-            } else {
-                document.getElementById('articleCard').classList.remove('visible');
-            }
+            document.getElementById('articleTitle').textContent = topic;
+            document.getElementById('currentRound').textContent = rounds;
+            document.getElementById('maxRounds').textContent = maxRounds;
         }
 
         async function addMessage(speaker) {
             state.thinking = true;
             updateUI();
             showTyping(speaker);
+
+            try {
+                const text = await generateResponse(speaker);
+                
+                const msg = {
+                    speaker,
+                    text,
+                    time: new Date().toLocaleTimeString()
+                };
+                
+                state.messages.push(msg);
+                state.conversationHistory.push({ speaker, text });
+                
+                hideTyping();
+                renderMessage(msg);
+                
+                if (speaker === 'skeptic') state.rounds++;
+                
+            } catch (e) {
+                hideTyping();
+                showError(e.message);
+                state.autoMode = false;
+            }
             
-            await new Promise(r => setTimeout(r, 1200 + Math.random() * 800));
-            
-            const msg = {
-                speaker,
-                text: getResponse(speaker),
-                time: new Date().toLocaleTimeString()
-            };
-            
-            state.messages.push(msg);
-            state.turnIndex++;
-            
-            hideTyping();
-            renderMessage(msg);
             state.thinking = false;
-            
-            if (speaker === 'skeptic') state.rounds++;
-            
             updateUI();
         }
 
         async function startDebate() {
+            if (!state.apiConnected) {
+                showError('Primero configura y prueba tu API key');
+                return;
+            }
+
             const topic = document.getElementById('topicInput').value.trim();
-            if (!topic) return;
-            
+            if (!topic) {
+                showError('Ingresa un tema para debatir');
+                return;
+            }
+
             state.topic = topic;
-            state.content = getTopicData(topic);
             state.maxRounds = parseInt(document.getElementById('roundsSelect').value);
             state.messages = [];
+            state.conversationHistory = [];
             state.rounds = 0;
-            state.turnIndex = 0;
             state.isDebating = true;
             
             document.getElementById('messagesList').innerHTML = '';
@@ -867,7 +1006,7 @@
             }
             await nextTurn();
             if (state.autoMode && state.rounds < state.maxRounds) {
-                state.autoInterval = setTimeout(runAuto, 500);
+                state.autoInterval = setTimeout(runAuto, 1000);
             } else {
                 state.autoMode = false;
                 updateUI();
@@ -883,7 +1022,15 @@
         }
 
         function resetDebate() {
-            state = { topic: '', content: null, messages: [], isDebating: false, rounds: 0, maxRounds: 5, turnIndex: 0, autoMode: false, autoInterval: null, thinking: false };
+            state.topic = '';
+            state.messages = [];
+            state.conversationHistory = [];
+            state.isDebating = false;
+            state.rounds = 0;
+            state.thinking = false;
+            state.autoMode = false;
+            if (state.autoInterval) clearTimeout(state.autoInterval);
+            
             document.getElementById('topicInput').value = '';
             document.getElementById('messagesList').innerHTML = '';
             hideTyping();
@@ -892,6 +1039,11 @@
 
         document.getElementById('topicInput').addEventListener('keydown', e => {
             if (e.key === 'Enter' && !state.isDebating) startDebate();
+        });
+
+        document.getElementById('apiKeyInput').addEventListener('change', () => {
+            state.apiConnected = false;
+            updateApiStatus('disconnected', 'Sin verificar');
         });
 
         updateUI();
