@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Arena - Dos IAs, Perspectivas Opuestas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #0a0a0f;
+            font-family: 'Space Grotesk', -apple-system, sans-serif;
+            color: #fff;
+            padding: 20px;
+        }
+
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 229, 160, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 107, 107, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 20px;
+            font-size: 14px;
+            color: rgba(255,255,255,0.5);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.6) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.03em;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #00E5A0, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
+            margin-top: 12px;
+        }
+
+        .controls {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 200px;
+            padding: 16px 20px;
+            font-size: 1rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input::placeholder {
+            color: rgba(255,255,255,0.3);
+        }
+
+        input:focus {
+            border-color: rgba(99, 102, 241, 0.5);
+        }
+
+        select {
+            padding: 16px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        button {
+            padding: 16px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #00E5A0, #00B882);
+            color: #000;
+        }
+
+        .btn-next {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+        }
+
+        .btn-stop {
+            background: rgba(255,107,107,0.2);
+            border: 1px solid rgba(255,107,107,0.3);
+            color: #FF6B6B;
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.6);
+        }
+
+        .btn-auto {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #000;
+        }
+
+        .suggestions {
+            margin-top: 16px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .suggestions span {
+            color: rgba(255,255,255,0.4);
+            font-size: 14px;
+        }
+
+        .suggestion-btn {
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.6);
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .suggestion-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+        }
+
+        .article-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 24px;
+            display: none;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .article-card.visible {
+            display: flex;
+        }
+
+        .article-info {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .article-info h2 {
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .article-info p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .article-info a {
+            color: #00E5A0;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 8px;
+            display: inline-block;
+        }
+
+        .progress-box {
+            padding: 16px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .progress-num {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00E5A0, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .progress-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        .debaters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .debater {
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .debater.optimist {
+            background: linear-gradient(135deg, #001a14, #002a1f);
+            border: 1px solid rgba(0, 229, 160, 0.15);
+        }
+
+        .debater.skeptic {
+            background: linear-gradient(135deg, #1a0a0a, #2a1515);
+            border: 1px solid rgba(255, 107, 107, 0.15);
+        }
+
+        .debater-avatar {
+            font-size: 3.5rem;
+            margin-bottom: 12px;
+        }
+
+        .debater h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .debater.optimist h3 { color: #00E5A0; }
+        .debater.skeptic h3 { color: #FF6B6B; }
+
+        .debater p {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            margin-top: 4px;
+        }
+
+        .messages {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 20px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .messages.visible {
+            display: block;
+        }
+
+        .messages-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            display: flex;
+            gap: 12px;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .message.skeptic {
+            flex-direction: row-reverse;
+        }
+
+        .msg-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .message.optimist .msg-avatar {
+            background: linear-gradient(135deg, #001a14, #002a1f);
+            border: 2px solid rgba(0, 229, 160, 0.3);
+        }
+
+        .message.skeptic .msg-avatar {
+            background: linear-gradient(135deg, #1a0a0a, #2a1515);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .msg-bubble {
+            flex: 1;
+            max-width: 70%;
+            padding: 16px 20px;
+        }
+
+        .message.optimist .msg-bubble {
+            background: rgba(0, 229, 160, 0.05);
+            border: 1px solid rgba(0, 229, 160, 0.15);
+            border-radius: 4px 18px 18px 18px;
+        }
+
+        .message.skeptic .msg-bubble {
+            background: rgba(255, 107, 107, 0.05);
+            border: 1px solid rgba(255, 107, 107, 0.15);
+            border-radius: 18px 4px 18px 18px;
+        }
+
+        .msg-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .msg-name {
+            font-weight: 700;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+
+        .message.optimist .msg-name { color: #00E5A0; }
+        .message.skeptic .msg-name { color: #FF6B6B; }
+
+        .msg-time {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.7rem;
+        }
+
+        .msg-text {
+            color: rgba(255,255,255,0.85);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .typing {
+            display: none;
+            gap: 12px;
+            opacity: 0.7;
+            margin-top: 16px;
+        }
+
+        .typing.visible {
+            display: flex;
+        }
+
+        .typing.skeptic {
+            flex-direction: row-reverse;
+        }
+
+        .typing-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            animation: pulse 1.5s infinite;
+        }
+
+        .typing.optimist .typing-avatar {
+            background: linear-gradient(135deg, #001a14, #002a1f);
+            border: 2px solid rgba(0, 229, 160, 0.3);
+        }
+
+        .typing.skeptic .typing-avatar {
+            background: linear-gradient(135deg, #1a0a0a, #2a1515);
+            border: 2px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .typing-dots {
+            padding: 16px 24px;
+            border-radius: 18px;
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        .typing.optimist .typing-dots {
+            background: rgba(0, 229, 160, 0.05);
+            border: 1px solid rgba(0, 229, 160, 0.15);
+        }
+
+        .typing.skeptic .typing-dots {
+            background: rgba(255, 107, 107, 0.05);
+            border: 1px solid rgba(255, 107, 107, 0.15);
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            animation: bounce 1.4s ease-in-out infinite;
+        }
+
+        .typing.optimist .dot { background: #00E5A0; }
+        .typing.skeptic .dot { background: #FF6B6B; }
+
+        .dot:nth-child(2) { animation-delay: 0.16s; }
+        .dot:nth-child(3) { animation-delay: 0.32s; }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .hidden { display: none !important; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-6px); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="bg-effects"></div>
+
+    <div class="container">
+        <header>
+            <div class="badge">⚡ Debate Simulado con IA</div>
+            <h1>DEBATE<span>ARENA</span></h1>
+            <p class="subtitle">Dos IAs. Un tema de Wikipedia. Perspectivas opuestas.</p>
+        </header>
+
+        <div class="controls">
+            <div class="controls-row">
+                <input type="text" id="topicInput" placeholder="Ingresa un tema (ej: Inteligencia Artificial)">
+                
+                <select id="roundsSelect">
+                    <option value="3">3 rondas</option>
+                    <option value="5" selected>5 rondas</option>
+                    <option value="7">7 rondas</option>
+                </select>
+
+                <button class="btn-start" id="startBtn" onclick="startDebate()">🎯 Iniciar</button>
+                <button class="btn-next hidden" id="nextBtn" onclick="nextTurn()">▶️ Siguiente</button>
+                <button class="btn-auto hidden" id="autoBtn" onclick="toggleAuto()">⚡ Auto</button>
+                <button class="btn-stop hidden" id="stopBtn" onclick="stopDebate()">⏹️</button>
+                <button class="btn-reset hidden" id="resetBtn" onclick="resetDebate()">🔄</button>
+            </div>
+
+            <div class="suggestions" id="suggestions">
+                <span>Sugerencias:</span>
+                <button class="suggestion-btn" onclick="setTopic('Inteligencia Artificial')">Inteligencia Artificial</button>
+                <button class="suggestion-btn" onclick="setTopic('Cambio Climático')">Cambio Climático</button>
+                <button class="suggestion-btn" onclick="setTopic('Criptomonedas')">Criptomonedas</button>
+                <button class="suggestion-btn" onclick="setTopic('Redes Sociales')">Redes Sociales</button>
+            </div>
+        </div>
+
+        <div class="article-card" id="articleCard">
+            <div class="article-info">
+                <h2>📖 <span id="articleTitle"></span></h2>
+                <p id="articleExtract"></p>
+                <a id="articleLink" href="#" target="_blank">Ver en Wikipedia →</a>
+            </div>
+            <div class="progress-box">
+                <div class="progress-num"><span id="currentRound">0</span>/<span id="maxRounds">5</span></div>
+                <div class="progress-label">RONDAS</div>
+            </div>
+        </div>
+
+        <div class="debaters" id="debatersIntro">
+            <div class="debater optimist">
+                <div class="debater-avatar">☀️</div>
+                <h3>AURORA</h3>
+                <p>El Optimista Pragmático</p>
+            </div>
+            <div class="debater skeptic">
+                <div class="debater-avatar">🌙</div>
+                <h3>UMBRA</h3>
+                <p>El Escéptico Analítico</p>
+            </div>
+        </div>
+
+        <div class="messages" id="messagesBox">
+            <div class="messages-list" id="messagesList"></div>
+            
+            <div class="typing optimist" id="typingOpt">
+                <div class="typing-avatar">☀️</div>
+                <div class="typing-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+
+            <div class="typing skeptic" id="typingSkep">
+                <div class="typing-avatar">🌙</div>
+                <div class="typing-dots">
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="icon">🎭</div>
+            <p>Ingresa un tema para comenzar el debate</p>
+        </div>
+    </div>
+
+    <script>
+        const DEBATES = {
+            "inteligencia artificial": {
+                title: "Inteligencia Artificial",
+                extract: "La IA es la simulación de procesos de inteligencia humana por máquinas. Incluye aprendizaje automático, procesamiento del lenguaje natural y visión por computadora.",
+                url: "https://es.wikipedia.org/wiki/Inteligencia_artificial",
+                optimist: [
+                    "La IA representa una de las mayores oportunidades para el progreso humano. Desde diagnósticos médicos más precisos hasta la optimización de recursos energéticos, estamos viendo cómo esta tecnología salva vidas y mejora nuestra calidad de vida.",
+                    "Los datos son claros: la IA ha aumentado la productividad global significativamente. Está democratizando el acceso a la educación y la salud. Lejos de reemplazarnos, nos libera de tareas repetitivas para enfocarnos en creatividad y conexión humana.",
+                    "La historia demuestra que cada revolución tecnológica genera más empleos de los que destruye. La IA creará profesiones que ni imaginamos. Lo importante es invertir en educación y adaptación.",
+                    "Respecto a los sesgos, son un reflejo de nuestros propios sesgos, pero la IA nos da la oportunidad de identificarlos y corregirlos sistemáticamente. Es una herramienta de mejora.",
+                    "El futuro con IA será uno donde las enfermedades se detecten antes, la educación se personalice, y tengamos más tiempo para lo que importa. Depende de nosotros guiar esta tecnología hacia el bien común."
+                ],
+                skeptic: [
+                    "Debemos ser cautelosos. La IA actual tiene sesgos graves que perpetúan discriminación en contratación, créditos y justicia penal. Los algoritmos amplifican las desigualdades existentes. ¿Dónde está la evidencia de que esto mejora?",
+                    "El argumento de productividad ignora quién se beneficia realmente. Las ganancias van a corporaciones mientras los trabajadores enfrentan precarización. Un estudio de Oxford estima que el 47% de empleos están en riesgo.",
+                    "La comparación con revoluciones anteriores es engañosa. La velocidad del cambio actual no tiene precedentes, y la concentración de poder en pocas empresas tecnológicas es alarmante.",
+                    "Auditar algoritmos suena bien, pero en la práctica son cajas negras protegidas por secreto comercial. Necesitamos regulación vinculante, no autorregulación voluntaria.",
+                    "Mi posición no es anti-tecnología, sino pro-precaución. Antes de celebrar el futuro utópico, aseguremos derechos digitales, regulación efectiva y distribución justa de beneficios."
+                ]
+            },
+            "cambio climático": {
+                title: "Cambio Climático",
+                extract: "El cambio climático se refiere a cambios a largo plazo en temperaturas y patrones climáticos, principalmente causados por actividades humanas desde la revolución industrial.",
+                url: "https://es.wikipedia.org/wiki/Cambio_climático",
+                optimist: [
+                    "Estamos en un punto de inflexión histórico. Las energías renovables son ahora más baratas que los combustibles fósiles. La transición verde está creando millones de empleos y las inversiones en tecnología limpia baten récords.",
+                    "El Acuerdo de París demostró que la cooperación global es posible. Más de 130 países se han comprometido con neutralidad de carbono. Las emisiones en Europa ya caen mientras la economía crece.",
+                    "La innovación tecnológica avanza rápidamente: baterías eficientes, hidrógeno verde, captura de carbono. Subestimamos la capacidad humana de resolver problemas cuando hay voluntad.",
+                    "Los jóvenes lideran este cambio con conciencia ambiental sin precedentes. Las empresas responden porque los consumidores lo demandan. El cambio cultural es irreversible.",
+                    "Tenemos las herramientas necesarias. Lo que falta es voluntad política y acción colectiva. La narrativa catastrofista paraliza; necesitamos esperanza activa basada en soluciones reales."
+                ],
+                skeptic: [
+                    "Los compromisos del Acuerdo de París son insuficientes y no vinculantes. Las emisiones globales siguen aumentando. La brecha entre retórica y acción es alarmante.",
+                    "El optimismo sobre renovables ignora la escala del desafío. Seguimos subsidiando combustibles fósiles por billones. La transición al ritmo actual nos llevaría décadas que no tenemos.",
+                    "La tecnología no es solución mágica. La captura de carbono a escala comercial sigue siendo promesa, no realidad. Apostar el futuro a tecnologías inexistentes es negacionismo sofisticado.",
+                    "El cambio de consumo individual es insuficiente. El 70% de emisiones proviene de 100 empresas. Necesitamos cambio sistémico, no solo bolsas reutilizables.",
+                    "No soy pesimista, soy realista. El IPCC advierte consecuencias catastróficas si no actuamos drásticamente AHORA. La esperanza sin acción proporcional es complacencia."
+                ]
+            },
+            "criptomonedas": {
+                title: "Criptomonedas",
+                extract: "Las criptomonedas son monedas digitales que utilizan criptografía para asegurar transacciones. Bitcoin fue la primera en 2009 y desde entonces han surgido miles más.",
+                url: "https://es.wikipedia.org/wiki/Criptomoneda",
+                optimist: [
+                    "Las criptomonedas son la mayor innovación financiera desde internet. Personas sin acceso bancario pueden participar en la economía global. En países con monedas inestables, Bitcoin ofrece refugio contra inflación.",
+                    "Blockchain va más allá del dinero: contratos inteligentes, identidad digital, trazabilidad. Estamos construyendo infraestructura para una economía más transparente y descentralizada.",
+                    "La volatilidad es característica de mercados emergentes. A medida que madura el ecosistema, la estabilidad aumenta. Los ETFs de Bitcoin aprobados demuestran legitimidad creciente.",
+                    "El argumento del consumo energético ignora el contexto. Bitcoin consume menos que el sistema bancario tradicional. Los mineros buscan energía barata, que suele ser renovable.",
+                    "Las criptomonedas devuelven control financiero a los individuos. En un mundo de vigilancia creciente, la privacidad y autonomía que ofrecen son valores democráticos fundamentales."
+                ],
+                skeptic: [
+                    "Las criptomonedas han facilitado ransomware, lavado de dinero y evasión fiscal por miles de millones. ¿Dónde está la evidencia de que su uso legítimo supera el criminal?",
+                    "La promesa de inclusión financiera es mayormente marketing. La mayoría de transacciones son especulación. En países pobres, los que pierden en las caídas son los más vulnerables.",
+                    "La comparación con el dólar es absurda. El dólar tiene respaldo estatal y uso real. El 95% de stablecoins y proyectos cripto han resultado fraudes o han colapsado.",
+                    "Una transacción de Bitcoin consume la energía de un hogar durante semanas. Que algunos mineros usen renovables no cambia el desperdicio fundamental de proof-of-work.",
+                    "La 'autonomía financiera' beneficia principalmente a quienes quieren evadir regulaciones legítimas. Las personas normales necesitan protecciones, no sistemas donde perder tu contraseña significa perder todo."
+                ]
+            },
+            "redes sociales": {
+                title: "Redes Sociales",
+                extract: "Las redes sociales son plataformas digitales que permiten crear perfiles, compartir contenido e interactuar con usuarios a nivel global.",
+                url: "https://es.wikipedia.org/wiki/Red_social",
+                optimist: [
+                    "Las redes han democratizado la comunicación como nunca. Movimientos como la Primavera Árabe o Black Lives Matter no habrían sido posibles sin estas plataformas. Dan voz a quienes antes no la tenían.",
+                    "Para millones, las redes son conexión con familiares lejanos, comunidades de apoyo y oportunidades profesionales. LinkedIn transformó la búsqueda de empleo. Grupos de Facebook conectan pacientes con enfermedades raras.",
+                    "Los problemas de desinformación son reales pero solucionables. Las plataformas invierten en moderación, verificación de hechos y herramientas de bienestar digital. La regulación inteligente puede mejorar sin destruir beneficios.",
+                    "La crítica a las redes viene de nostalgia idealizada. Los medios tradicionales también tenían sesgos y sensacionalismo. Al menos ahora cualquiera puede responder y verificar.",
+                    "Las nuevas generaciones desarrollan alfabetización digital impresionante. Saben distinguir contenido auténtico mejor que sus padres. Usan estas herramientas para activismo y creatividad."
+                ],
+                skeptic: [
+                    "La evidencia sobre impacto en salud mental es alarmante, especialmente en adolescentes. Tasas de depresión y ansiedad han aumentado dramáticamente. Los documentos de Meta reconocen que Instagram es tóxico para adolescentes.",
+                    "El modelo de negocio basado en atención maximizada es perverso. Los algoritmos están diseñados para generar indignación porque genera engagement. No es efecto secundario, es el producto.",
+                    "La desinformación no es problema técnico menor, es crisis democrática. Las redes han amplificado conspiraciones, antivacunas y extremismo. Las inversiones en moderación son cosméticas.",
+                    "Decir que los jóvenes tienen 'alfabetización digital' ignora cómo funciona la manipulación psicológica. Los algoritmos explotan sesgos cognitivos que no podemos 'superar' con educación.",
+                    "La comparación con medios tradicionales es falsa equivalencia. Nunca existió una máquina de radicalización personalizada en el bolsillo de cada ciudadano. La escala es sin precedente."
+                ]
+            }
+        };
+
+        const DEFAULT = {
+            optimist: [
+                "Este tema representa una oportunidad fascinante para el progreso humano. A lo largo de la historia, hemos demostrado capacidad de adaptarnos y encontrar soluciones creativas.",
+                "Los datos muestran tendencias positivas que se ignoran en el debate público. Cuando miramos indicadores objetivos, vemos mejoras significativas.",
+                "La colaboración e innovación han resuelto problemas que parecían imposibles. Tenemos más herramientas, conocimiento y recursos que nunca.",
+                "Las nuevas generaciones abordan estos desafíos con perspectivas frescas. Su compromiso y creatividad son inspiradores.",
+                "Mi optimismo es confianza basada en evidencia histórica. Cada era ha enfrentado crisis y las ha superado."
+            ],
+            skeptic: [
+                "Debemos examinar este tema con rigor crítico. Las narrativas dominantes simplifican realidades complejas y ocultan intereses particulares.",
+                "La evidencia presenta un panorama más matizado. Hay riesgos significativos que no podemos ignorar solo porque son incómodos.",
+                "La historia enseña que soluciones precipitadas generan problemas nuevos. Necesitamos análisis riguroso y regulación adecuada.",
+                "Las promesas de progreso ignoran estructuras de poder que determinan quién gana y quién pierde.",
+                "Mi escepticismo no es pesimismo sino precaución informada. Exigir evidencia y cuestionar supuestos es ser responsable."
+            ]
+        };
+
+        let state = {
+            topic: '',
+            content: null,
+            messages: [],
+            isDebating: false,
+            rounds: 0,
+            maxRounds: 5,
+            turnIndex: 0,
+            autoMode: false,
+            autoInterval: null,
+            thinking: false
+        };
+
+        function setTopic(t) {
+            document.getElementById('topicInput').value = t;
+        }
+
+        function getTopicData(topic) {
+            const key = topic.toLowerCase().trim();
+            for (let k in DEBATES) {
+                if (key.includes(k) || k.includes(key)) return DEBATES[k];
+            }
+            return {
+                title: topic.charAt(0).toUpperCase() + topic.slice(1),
+                extract: `${topic} es un tema actual que genera debates desde múltiples perspectivas.`,
+                url: `https://es.wikipedia.org/wiki/${encodeURIComponent(topic)}`,
+                optimist: DEFAULT.optimist,
+                skeptic: DEFAULT.skeptic
+            };
+        }
+
+        function getResponse(speaker) {
+            const responses = state.content[speaker];
+            const idx = Math.floor(state.turnIndex / 2);
+            return responses[idx % responses.length];
+        }
+
+        function renderMessage(msg) {
+            const list = document.getElementById('messagesList');
+            const div = document.createElement('div');
+            div.className = `message ${msg.speaker}`;
+            div.innerHTML = `
+                <div class="msg-avatar">${msg.speaker === 'optimist' ? '☀️' : '🌙'}</div>
+                <div class="msg-bubble">
+                    <div class="msg-header">
+                        <span class="msg-name">${msg.speaker === 'optimist' ? 'AURORA' : 'UMBRA'}</span>
+                        <span class="msg-time">${msg.time}</span>
+                    </div>
+                    <p class="msg-text">${msg.text}</p>
+                </div>
+            `;
+            list.appendChild(div);
+            document.getElementById('messagesBox').scrollTop = 9999;
+        }
+
+        function showTyping(speaker) {
+            document.getElementById(speaker === 'optimist' ? 'typingOpt' : 'typingSkep').classList.add('visible');
+            document.getElementById('messagesBox').scrollTop = 9999;
+        }
+
+        function hideTyping() {
+            document.getElementById('typingOpt').classList.remove('visible');
+            document.getElementById('typingSkep').classList.remove('visible');
+        }
+
+        function updateUI() {
+            const { isDebating, messages, content, rounds, maxRounds, thinking, autoMode } = state;
+            
+            document.getElementById('startBtn').classList.toggle('hidden', isDebating);
+            document.getElementById('nextBtn').classList.toggle('hidden', !isDebating);
+            document.getElementById('autoBtn').classList.toggle('hidden', !isDebating);
+            document.getElementById('stopBtn').classList.toggle('hidden', !isDebating);
+            document.getElementById('resetBtn').classList.toggle('hidden', messages.length === 0);
+            document.getElementById('suggestions').classList.toggle('hidden', !!content);
+            document.getElementById('debatersIntro').classList.toggle('hidden', !!content);
+            document.getElementById('emptyState').classList.toggle('hidden', !!content);
+            document.getElementById('messagesBox').classList.toggle('visible', messages.length > 0);
+            
+            document.getElementById('topicInput').disabled = isDebating;
+            document.getElementById('roundsSelect').disabled = isDebating;
+            
+            const nextBtn = document.getElementById('nextBtn');
+            const autoBtn = document.getElementById('autoBtn');
+            
+            if (rounds >= maxRounds) {
+                nextBtn.textContent = '✅ Fin';
+                nextBtn.disabled = true;
+                autoBtn.classList.add('hidden');
+            } else if (thinking) {
+                nextBtn.textContent = '💭 Pensando...';
+                nextBtn.disabled = true;
+            } else {
+                nextBtn.textContent = '▶️ Siguiente';
+                nextBtn.disabled = false;
+            }
+            
+            autoBtn.textContent = autoMode ? '⏸️ Pausar' : '⚡ Auto';
+            autoBtn.className = autoMode ? 'btn-stop' : 'btn-auto';
+            
+            if (content) {
+                document.getElementById('articleCard').classList.add('visible');
+                document.getElementById('articleTitle').textContent = content.title;
+                document.getElementById('articleExtract').textContent = content.extract;
+                document.getElementById('articleLink').href = content.url || '#';
+                document.getElementById('currentRound').textContent = rounds;
+                document.getElementById('maxRounds').textContent = maxRounds;
+            } else {
+                document.getElementById('articleCard').classList.remove('visible');
+            }
+        }
+
+        async function addMessage(speaker) {
+            state.thinking = true;
+            updateUI();
+            showTyping(speaker);
+            
+            await new Promise(r => setTimeout(r, 1200 + Math.random() * 800));
+            
+            const msg = {
+                speaker,
+                text: getResponse(speaker),
+                time: new Date().toLocaleTimeString()
+            };
+            
+            state.messages.push(msg);
+            state.turnIndex++;
+            
+            hideTyping();
+            renderMessage(msg);
+            state.thinking = false;
+            
+            if (speaker === 'skeptic') state.rounds++;
+            
+            updateUI();
+        }
+
+        async function startDebate() {
+            const topic = document.getElementById('topicInput').value.trim();
+            if (!topic) return;
+            
+            state.topic = topic;
+            state.content = getTopicData(topic);
+            state.maxRounds = parseInt(document.getElementById('roundsSelect').value);
+            state.messages = [];
+            state.rounds = 0;
+            state.turnIndex = 0;
+            state.isDebating = true;
+            
+            document.getElementById('messagesList').innerHTML = '';
+            updateUI();
+            
+            await addMessage('optimist');
+        }
+
+        async function nextTurn() {
+            if (state.rounds >= state.maxRounds || state.thinking) return;
+            const speaker = state.messages.length % 2 === 0 ? 'optimist' : 'skeptic';
+            await addMessage(speaker);
+        }
+
+        function toggleAuto() {
+            state.autoMode = !state.autoMode;
+            updateUI();
+            if (state.autoMode) runAuto();
+            else if (state.autoInterval) {
+                clearTimeout(state.autoInterval);
+                state.autoInterval = null;
+            }
+        }
+
+        async function runAuto() {
+            if (!state.autoMode || state.rounds >= state.maxRounds || state.thinking) {
+                state.autoMode = false;
+                updateUI();
+                return;
+            }
+            await nextTurn();
+            if (state.autoMode && state.rounds < state.maxRounds) {
+                state.autoInterval = setTimeout(runAuto, 500);
+            } else {
+                state.autoMode = false;
+                updateUI();
+            }
+        }
+
+        function stopDebate() {
+            state.isDebating = false;
+            state.autoMode = false;
+            if (state.autoInterval) clearTimeout(state.autoInterval);
+            hideTyping();
+            updateUI();
+        }
+
+        function resetDebate() {
+            state = { topic: '', content: null, messages: [], isDebating: false, rounds: 0, maxRounds: 5, turnIndex: 0, autoMode: false, autoInterval: null, thinking: false };
+            document.getElementById('topicInput').value = '';
+            document.getElementById('messagesList').innerHTML = '';
+            hideTyping();
+            updateUI();
+        }
+
+        document.getElementById('topicInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter' && !state.isDebating) startDebate();
+        });
+
+        updateUI();
+    </script>
+</body>
+</html>
