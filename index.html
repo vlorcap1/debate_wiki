@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         body {
             min-height: 100vh;
             background: #0a0a0f;
@@ -15,7 +14,6 @@
             color: #fff;
             padding: 20px;
         }
-
         .bg-effects {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -24,16 +22,8 @@
                 radial-gradient(ellipse at 80% 80%, rgba(255, 107, 107, 0.08) 0%, transparent 50%);
             pointer-events: none;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
+        .container { max-width: 1100px; margin: 0 auto; position: relative; z-index: 1; }
         header { text-align: center; margin-bottom: 30px; }
-
         .badge {
             display: inline-block;
             padding: 8px 20px;
@@ -41,112 +31,82 @@
             border-radius: 100px;
             border: 1px solid rgba(255,255,255,0.08);
             margin-bottom: 16px;
-            font-size: 14px;
+            font-size: 13px;
             color: rgba(255,255,255,0.5);
         }
-
         h1 {
-            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
             background: linear-gradient(135deg, #fff, rgba(255,255,255,0.6));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
         h1 span {
             background: linear-gradient(135deg, #00E5A0, #FF6B6B);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .subtitle { color: rgba(255,255,255,0.4); font-size: 1rem; margin-top: 8px; }
 
-        .subtitle { color: rgba(255,255,255,0.4); margin-top: 10px; }
-
-        /* Sections */
         .section {
-            border-radius: 20px;
-            padding: 20px 24px;
+            border-radius: 18px;
+            padding: 20px;
             margin-bottom: 16px;
         }
-
         .section h3 {
             font-size: 0.95rem;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
-
-        .section-row {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        /* API Section */
         .api-section {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
             border: 1px solid rgba(99, 102, 241, 0.2);
         }
         .api-section h3 { color: #a5b4fc; }
-
-        /* Wiki Section */
         .wiki-section {
             background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(22, 163, 74, 0.05));
             border: 1px solid rgba(34, 197, 94, 0.2);
         }
         .wiki-section h3 { color: #86efac; }
 
-        /* Controls Section */
-        .controls-section {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-        }
-        .controls-section h3 { color: rgba(255,255,255,0.7); }
-
-        /* Inputs */
+        .row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
         input[type="text"], input[type="password"] {
             flex: 1;
             min-width: 200px;
-            padding: 14px 18px;
-            font-size: 0.95rem;
+            padding: 12px 16px;
+            font-size: 0.9rem;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #fff;
             outline: none;
             font-family: inherit;
         }
-
         input::placeholder { color: rgba(255,255,255,0.3); }
         input:focus { border-color: rgba(99, 102, 241, 0.5); }
-
         select {
-            padding: 14px 16px;
+            padding: 12px 14px;
             background: rgba(0,0,0,0.4);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             color: #fff;
             font-family: inherit;
-            cursor: pointer;
         }
-
-        /* Buttons */
         button {
-            padding: 14px 24px;
-            font-size: 0.95rem;
+            padding: 12px 20px;
+            font-size: 0.9rem;
             font-weight: 600;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
             font-family: inherit;
         }
-
-        button:hover:not(:disabled) { transform: translateY(-2px); }
+        button:hover:not(:disabled) { transform: translateY(-1px); }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
-
-        .btn-primary { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
+        .btn-api { background: linear-gradient(135deg, #6366f1, #4f46e5); color: #fff; }
         .btn-wiki { background: linear-gradient(135deg, #22c55e, #16a34a); color: #000; }
         .btn-start { background: linear-gradient(135deg, #00E5A0, #00B882); color: #000; }
         .btn-next { background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #fff; }
@@ -154,855 +114,547 @@
         .btn-stop { background: rgba(255,107,107,0.2); border: 1px solid rgba(255,107,107,0.3); color: #FF6B6B; }
         .btn-reset { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.6); }
 
-        /* Status */
         .status {
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-size: 0.85rem;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 0.8rem;
             display: flex;
             align-items: center;
             gap: 6px;
         }
+        .status.off { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); color: #FF6B6B; }
+        .status.on { background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.3); color: #00E5A0; }
+        .status.loading { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
 
-        .status.disconnected { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); color: #FF6B6B; }
-        .status.connected { background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.3); color: #00E5A0; }
-        .status.testing { background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.3); color: #fbbf24; }
+        .help { margin-top: 10px; font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+        .help a { color: #a5b4fc; text-decoration: none; }
 
-        .help-text {
-            margin-top: 12px;
-            font-size: 0.8rem;
-            color: rgba(255,255,255,0.4);
-        }
-        .help-text a { color: #a5b4fc; text-decoration: none; }
-        .help-text a:hover { text-decoration: underline; }
-
-        /* Wiki Results */
-        .wiki-results {
-            margin-top: 14px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
+        .wiki-results { margin-top: 12px; display: flex; flex-direction: column; gap: 8px; }
         .wiki-item {
             background: rgba(0,0,0,0.3);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 12px;
-            padding: 14px 18px;
+            border-radius: 10px;
+            padding: 12px 16px;
             cursor: pointer;
             transition: all 0.2s;
-            display: flex;
-            gap: 14px;
-            align-items: center;
         }
-
-        .wiki-item:hover {
-            background: rgba(34, 197, 94, 0.1);
-            border-color: rgba(34, 197, 94, 0.3);
-        }
-
-        .wiki-item img {
-            width: 60px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-        }
-
-        .wiki-item-info { flex: 1; }
-        .wiki-item h4 { color: #86efac; font-size: 1rem; margin-bottom: 4px; }
-        .wiki-item p { color: rgba(255,255,255,0.5); font-size: 0.85rem; line-height: 1.4; }
-
+        .wiki-item:hover { background: rgba(34,197,94,0.1); border-color: rgba(34,197,94,0.3); }
+        .wiki-item h4 { font-size: 0.95rem; color: #86efac; margin-bottom: 4px; }
+        .wiki-item p { font-size: 0.8rem; color: rgba(255,255,255,0.5); line-height: 1.4; }
+        .wiki-loading { color: rgba(255,255,255,0.5); font-size: 0.85rem; padding: 10px; text-align: center; }
         .wiki-selected {
-            background: rgba(34,197,94,0.15);
-            border: 1px solid rgba(34,197,94,0.4);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 14px;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.3);
+            border-radius: 10px;
+            padding: 14px;
         }
+        .wiki-selected h4 { color: #86efac; margin-bottom: 6px; }
+        .wiki-selected p { color: rgba(255,255,255,0.6); font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; }
+        .wiki-selected a { color: #86efac; font-size: 0.8rem; text-decoration: none; }
 
-        .wiki-selected h4 { color: #86efac; margin-bottom: 8px; }
-        .wiki-selected p { color: rgba(255,255,255,0.6); font-size: 0.9rem; line-height: 1.5; margin-bottom: 8px; }
-        .wiki-selected a { color: #86efac; font-size: 0.85rem; text-decoration: none; }
-
-        .wiki-loading {
-            color: rgba(255,255,255,0.5);
-            padding: 20px;
-            text-align: center;
-        }
-
-        /* Article Card */
-        .article-card {
+        .controls {
             background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
             border-radius: 16px;
             padding: 18px;
             margin-bottom: 16px;
             display: none;
-            gap: 16px;
+        }
+        .controls.visible { display: block; }
+
+        .article-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: none;
+            gap: 14px;
             align-items: center;
             flex-wrap: wrap;
         }
-
         .article-card.visible { display: flex; }
+        .article-card img { width: 80px; height: 80px; object-fit: cover; border-radius: 10px; }
+        .article-info { flex: 1; min-width: 180px; }
+        .article-info h2 { font-size: 1.1rem; margin-bottom: 4px; }
+        .article-info p { color: rgba(255,255,255,0.5); font-size: 0.8rem; line-height: 1.4; }
+        .progress-box { padding: 12px 16px; background: rgba(0,0,0,0.3); border-radius: 10px; text-align: center; }
+        .progress-num { font-size: 1.6rem; font-weight: 700; background: linear-gradient(135deg, #00E5A0, #FF6B6B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .progress-label { color: rgba(255,255,255,0.4); font-size: 9px; margin-top: 2px; }
 
-        .article-card img {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .article-info { flex: 1; min-width: 200px; }
-        .article-info h2 { font-size: 1.1rem; margin-bottom: 6px; color: #86efac; }
-        .article-info p { color: rgba(255,255,255,0.5); font-size: 0.85rem; line-height: 1.4; }
-
-        .progress-box {
-            padding: 14px 18px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .progress-num {
-            font-size: 1.8rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #00E5A0, #FF6B6B);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .progress-label { color: rgba(255,255,255,0.4); font-size: 10px; }
-
-        /* Debaters */
-        .debaters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 14px;
-            margin-bottom: 20px;
-        }
-
-        .debater {
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .debater.optimist {
-            background: linear-gradient(135deg, #001a14, #002a1f);
-            border: 1px solid rgba(0, 229, 160, 0.15);
-        }
-
-        .debater.skeptic {
-            background: linear-gradient(135deg, #1a0a0a, #2a1515);
-            border: 1px solid rgba(255, 107, 107, 0.15);
-        }
-
-        .debater-avatar { font-size: 3rem; margin-bottom: 10px; }
-        .debater h3 { font-size: 1.3rem; font-weight: 700; letter-spacing: 0.05em; }
+        .debaters { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .debater { border-radius: 14px; padding: 20px; text-align: center; }
+        .debater.optimist { background: linear-gradient(135deg, #001a14, #002a1f); border: 1px solid rgba(0,229,160,0.15); }
+        .debater.skeptic { background: linear-gradient(135deg, #1a0a0a, #2a1515); border: 1px solid rgba(255,107,107,0.15); }
+        .debater-avatar { font-size: 2.8rem; margin-bottom: 8px; }
+        .debater h3 { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.05em; }
         .debater.optimist h3 { color: #00E5A0; }
         .debater.skeptic h3 { color: #FF6B6B; }
-        .debater p { color: rgba(255,255,255,0.5); font-size: 0.8rem; margin-top: 4px; }
+        .debater p { color: rgba(255,255,255,0.5); font-size: 0.75rem; margin-top: 4px; }
 
-        /* Messages */
         .messages {
             background: rgba(255,255,255,0.01);
             border: 1px solid rgba(255,255,255,0.04);
-            border-radius: 16px;
-            padding: 18px;
-            max-height: 500px;
+            border-radius: 14px;
+            padding: 16px;
+            max-height: 450px;
             overflow-y: auto;
             display: none;
         }
-
         .messages.visible { display: block; }
-
-        .messages-list {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-
-        .message {
-            display: flex;
-            gap: 12px;
-            animation: fadeIn 0.4s ease-out;
-        }
-
+        .messages-list { display: flex; flex-direction: column; gap: 12px; }
+        .message { display: flex; gap: 10px; animation: fadeIn 0.4s ease-out; }
         .message.skeptic { flex-direction: row-reverse; }
-
         .msg-avatar {
-            width: 44px;
-            height: 44px;
+            width: 40px; height: 40px;
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
             flex-shrink: 0;
         }
-
-        .message.optimist .msg-avatar {
-            background: linear-gradient(135deg, #001a14, #002a1f);
-            border: 2px solid rgba(0, 229, 160, 0.3);
-        }
-
-        .message.skeptic .msg-avatar {
-            background: linear-gradient(135deg, #1a0a0a, #2a1515);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .msg-bubble {
-            flex: 1;
-            max-width: 72%;
-            padding: 14px 18px;
-        }
-
-        .message.optimist .msg-bubble {
-            background: rgba(0, 229, 160, 0.05);
-            border: 1px solid rgba(0, 229, 160, 0.15);
-            border-radius: 4px 16px 16px 16px;
-        }
-
-        .message.skeptic .msg-bubble {
-            background: rgba(255, 107, 107, 0.05);
-            border: 1px solid rgba(255, 107, 107, 0.15);
-            border-radius: 16px 4px 16px 16px;
-        }
-
+        .message.optimist .msg-avatar { background: linear-gradient(135deg, #001a14, #002a1f); border: 2px solid rgba(0,229,160,0.3); }
+        .message.skeptic .msg-avatar { background: linear-gradient(135deg, #1a0a0a, #2a1515); border: 2px solid rgba(255,107,107,0.3); }
+        .msg-bubble { flex: 1; max-width: 72%; padding: 12px 16px; }
+        .message.optimist .msg-bubble { background: rgba(0,229,160,0.05); border: 1px solid rgba(0,229,160,0.15); border-radius: 4px 14px 14px 14px; }
+        .message.skeptic .msg-bubble { background: rgba(255,107,107,0.05); border: 1px solid rgba(255,107,107,0.15); border-radius: 14px 4px 14px 14px; }
         .msg-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
-        .msg-name { font-weight: 700; font-size: 0.75rem; letter-spacing: 0.05em; }
+        .msg-name { font-weight: 700; font-size: 0.7rem; letter-spacing: 0.05em; }
         .message.optimist .msg-name { color: #00E5A0; }
         .message.skeptic .msg-name { color: #FF6B6B; }
-        .msg-time { color: rgba(255,255,255,0.3); font-size: 0.65rem; }
-        .msg-text { color: rgba(255,255,255,0.85); line-height: 1.6; font-size: 0.9rem; }
+        .msg-time { color: rgba(255,255,255,0.3); font-size: 0.6rem; }
+        .msg-text { color: rgba(255,255,255,0.85); line-height: 1.5; font-size: 0.85rem; }
 
-        /* Typing */
-        .typing {
-            display: none;
-            gap: 12px;
-            opacity: 0.7;
-            margin-top: 14px;
-        }
-
+        .typing { display: none; gap: 10px; opacity: 0.7; margin-top: 12px; }
         .typing.visible { display: flex; }
         .typing.skeptic { flex-direction: row-reverse; }
-
-        .typing-avatar {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.4rem;
-            animation: pulse 1.5s infinite;
-        }
-
-        .typing.optimist .typing-avatar {
-            background: linear-gradient(135deg, #001a14, #002a1f);
-            border: 2px solid rgba(0, 229, 160, 0.3);
-        }
-
-        .typing.skeptic .typing-avatar {
-            background: linear-gradient(135deg, #1a0a0a, #2a1515);
-            border: 2px solid rgba(255, 107, 107, 0.3);
-        }
-
-        .typing-dots {
-            padding: 14px 20px;
-            border-radius: 16px;
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-
-        .typing.optimist .typing-dots {
-            background: rgba(0, 229, 160, 0.05);
-            border: 1px solid rgba(0, 229, 160, 0.15);
-        }
-
-        .typing.skeptic .typing-dots {
-            background: rgba(255, 107, 107, 0.05);
-            border: 1px solid rgba(255, 107, 107, 0.15);
-        }
-
-        .dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            animation: bounce 1.4s ease-in-out infinite;
-        }
-
+        .typing-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; animation: pulse 1.5s infinite; }
+        .typing.optimist .typing-avatar { background: linear-gradient(135deg, #001a14, #002a1f); border: 2px solid rgba(0,229,160,0.3); }
+        .typing.skeptic .typing-avatar { background: linear-gradient(135deg, #1a0a0a, #2a1515); border: 2px solid rgba(255,107,107,0.3); }
+        .typing-dots { padding: 12px 18px; border-radius: 14px; display: flex; gap: 4px; align-items: center; }
+        .typing.optimist .typing-dots { background: rgba(0,229,160,0.05); border: 1px solid rgba(0,229,160,0.15); }
+        .typing.skeptic .typing-dots { background: rgba(255,107,107,0.05); border: 1px solid rgba(255,107,107,0.15); }
+        .dot { width: 6px; height: 6px; border-radius: 50%; animation: bounce 1.4s ease-in-out infinite; }
         .typing.optimist .dot { background: #00E5A0; }
         .typing.skeptic .dot { background: #FF6B6B; }
         .dot:nth-child(2) { animation-delay: 0.16s; }
         .dot:nth-child(3) { animation-delay: 0.32s; }
 
-        /* Error */
-        .error-box {
-            background: rgba(255, 107, 107, 0.1);
-            border: 1px solid rgba(255, 107, 107, 0.3);
-            border-radius: 12px;
-            padding: 14px 18px;
-            margin-bottom: 16px;
-            color: #FF6B6B;
-            font-size: 0.9rem;
-            display: none;
-        }
-
+        .error-box { background: rgba(255,107,107,0.1); border: 1px solid rgba(255,107,107,0.3); border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; color: #FF6B6B; font-size: 0.85rem; display: none; }
         .error-box.visible { display: block; }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: rgba(255,255,255,0.3);
-        }
-
-        .empty-state .icon { font-size: 3.5rem; margin-bottom: 14px; opacity: 0.5; }
-
+        .empty-state { text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.3); }
+        .empty-state .icon { font-size: 3rem; margin-bottom: 12px; opacity: 0.5; }
         .hidden { display: none !important; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes bounce {
-            0%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-5px); }
-        }
-
-        ::-webkit-scrollbar { width: 6px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        @keyframes bounce { 0%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-4px); } }
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
     </style>
 </head>
 <body>
     <div class="bg-effects"></div>
-
     <div class="container">
         <header>
-            <div class="badge">🤖 Debates Generados por IA en Tiempo Real</div>
+            <div class="badge">🤖 Debates con IA en Tiempo Real</div>
             <h1>DEBATE<span>ARENA</span></h1>
-            <p class="subtitle">Dos IAs debaten artículos de Wikipedia con perspectivas opuestas</p>
+            <p class="subtitle">Busca un artículo de Wikipedia y mira a dos IAs debatir</p>
         </header>
 
-        <!-- Error Box -->
-        <div class="error-box" id="errorBox"></div>
-
-        <!-- API Key Section -->
         <div class="section api-section">
             <h3>🔑 API Key de OpenAI</h3>
-            <div class="section-row">
-                <input type="password" id="apiKeyInput" placeholder="Pega tu API Key (sk-...)">
-                <button class="btn-primary" onclick="testApiKey()">Probar</button>
-                <div class="status disconnected" id="apiStatus">
-                    <span>●</span> <span id="apiStatusText">Sin conectar</span>
-                </div>
+            <div class="row">
+                <input type="password" id="apiKey" placeholder="sk-...">
+                <button class="btn-api" onclick="testApi()">Probar</button>
+                <div class="status off" id="apiStatus"><span>●</span> <span id="apiStatusText">Sin conectar</span></div>
             </div>
-            <p class="help-text">
-                Obtén tu key en <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
-            </p>
+            <p class="help">Obtén tu key en <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a></p>
         </div>
 
-        <!-- Wikipedia Section -->
         <div class="section wiki-section">
-            <h3>📖 Buscar Artículo en Wikipedia</h3>
-            <div class="section-row">
-                <input type="text" id="wikiInput" placeholder="Buscar tema (ej: Inteligencia Artificial, Bitcoin, etc.)">
+            <h3>📖 Buscar en Wikipedia</h3>
+            <div class="row">
+                <input type="text" id="wikiSearch" placeholder="Ej: Inteligencia artificial, Bitcoin, Cambio climático...">
                 <button class="btn-wiki" onclick="searchWiki()">🔍 Buscar</button>
             </div>
             <div class="wiki-results" id="wikiResults"></div>
         </div>
 
-        <!-- Controls Section -->
-        <div class="section controls-section" id="controlsSection" style="display: none;">
-            <h3>⚙️ Configuración del Debate</h3>
-            <div class="section-row">
-                <label style="color: rgba(255,255,255,0.5);">Rondas:</label>
-                <select id="roundsSelect">
-                    <option value="3">3</option>
-                    <option value="5" selected>5</option>
-                    <option value="7">7</option>
-                    <option value="10">10</option>
-                    <option value="15">15</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
+        <div class="error-box" id="errorBox"></div>
+
+        <div class="controls" id="controls">
+            <div class="row">
+                <select id="rounds">
+                    <option value="3">3 rondas</option>
+                    <option value="5" selected>5 rondas</option>
+                    <option value="7">7 rondas</option>
+                    <option value="10">10 rondas</option>
+                    <option value="15">15 rondas</option>
+                    <option value="20">20 rondas</option>
                 </select>
                 <button class="btn-start" id="startBtn" onclick="startDebate()">🎯 Iniciar Debate</button>
                 <button class="btn-next hidden" id="nextBtn" onclick="nextTurn()">▶️ Siguiente</button>
                 <button class="btn-auto hidden" id="autoBtn" onclick="toggleAuto()">⚡ Auto</button>
-                <button class="btn-stop hidden" id="stopBtn" onclick="stopDebate()">⏹️ Detener</button>
-                <button class="btn-reset hidden" id="resetBtn" onclick="resetDebate()">🔄 Reset</button>
+                <button class="btn-stop hidden" id="stopBtn" onclick="stopDebate()">⏹️</button>
+                <button class="btn-reset hidden" id="resetBtn" onclick="resetAll()">🔄</button>
             </div>
         </div>
 
-        <!-- Article Card (during debate) -->
         <div class="article-card" id="articleCard">
             <img id="articleImg" src="" alt="">
             <div class="article-info">
                 <h2>📖 <span id="articleTitle"></span></h2>
-                <p id="articleExtract"></p>
+                <p id="articleDesc"></p>
             </div>
             <div class="progress-box">
-                <div class="progress-num"><span id="currentRound">0</span>/<span id="maxRounds">5</span></div>
+                <div class="progress-num"><span id="curRound">0</span>/<span id="maxRound">5</span></div>
                 <div class="progress-label">RONDAS</div>
             </div>
         </div>
 
-        <!-- Debaters Intro -->
-        <div class="debaters" id="debatersIntro">
+        <div class="debaters" id="debaters">
             <div class="debater optimist">
                 <div class="debater-avatar">☀️</div>
                 <h3>AURORA</h3>
-                <p>El Optimista Pragmático</p>
+                <p>Optimista Pragmático</p>
             </div>
             <div class="debater skeptic">
                 <div class="debater-avatar">🌙</div>
                 <h3>UMBRA</h3>
-                <p>El Escéptico Analítico</p>
+                <p>Escéptico Analítico</p>
             </div>
         </div>
 
-        <!-- Messages -->
-        <div class="messages" id="messagesBox">
-            <div class="messages-list" id="messagesList"></div>
-            
-            <div class="typing optimist" id="typingOpt">
-                <div class="typing-avatar">☀️</div>
-                <div class="typing-dots">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
-
-            <div class="typing skeptic" id="typingSkep">
-                <div class="typing-avatar">🌙</div>
-                <div class="typing-dots">
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                    <span class="dot"></span>
-                </div>
-            </div>
+        <div class="messages" id="messages">
+            <div class="messages-list" id="msgList"></div>
+            <div class="typing optimist" id="typingOpt"><div class="typing-avatar">☀️</div><div class="typing-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
+            <div class="typing skeptic" id="typingSkep"><div class="typing-avatar">🌙</div><div class="typing-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>
         </div>
 
-        <!-- Empty State -->
-        <div class="empty-state" id="emptyState">
+        <div class="empty-state" id="empty">
             <div class="icon">🎭</div>
-            <p>Configura tu API key y busca un artículo de Wikipedia para comenzar</p>
+            <p>Configura tu API y busca un artículo para comenzar</p>
         </div>
     </div>
 
     <script>
         const BOTS = {
             optimist: {
-                name: "AURORA",
-                avatar: "☀️",
-                system: `Eres Aurora, una debatiente optimista y constructiva.
-Tu rol: defender la posición POSITIVA/A FAVOR del tema.
+                name: "AURORA", avatar: "☀️",
+                system: `Eres Aurora, debatiente optimista. Defiendes la posición POSITIVA del tema.
 - Busca beneficios, oportunidades y soluciones
-- Usa datos esperanzadores del artículo
+- Usa datos esperanzadores
 - Sé apasionada pero respetuosa
 - Responde a los argumentos del oponente
 - Máximo 3-4 oraciones
 - Responde en español`
             },
             skeptic: {
-                name: "UMBRA",
-                avatar: "🌙",
-                system: `Eres Umbra, un debatiente escéptico y analítico.
-Tu rol: defender la posición CRÍTICA/señalar problemas del tema.
-- Cuestiona narrativas y señala riesgos
-- Pide evidencia y considera efectos negativos
-- Sé cauteloso pero no irracionalmente pesimista
+                name: "UMBRA", avatar: "🌙",
+                system: `Eres Umbra, debatiente escéptico. Defiendes la posición CRÍTICA del tema.
+- Cuestiona y señala riesgos
+- Pide evidencia rigurosa
+- Sé cauteloso pero no irracional
 - Responde a los argumentos del oponente
 - Máximo 3-4 oraciones
 - Responde en español`
             }
         };
 
-        let state = {
-            apiKey: localStorage.getItem('openai_api_key') || '',
-            apiConnected: false,
+        let S = {
+            apiKey: localStorage.getItem('oai_key') || '',
+            apiOk: false,
             wiki: null,
-            messages: [],
+            topic: '',
+            content: '',
+            msgs: [],
             history: [],
-            isDebating: false,
-            rounds: 0,
-            maxRounds: 5,
+            debating: false,
+            round: 0,
+            maxRound: 5,
             thinking: false,
-            autoMode: false,
+            auto: false,
             autoTimer: null
         };
 
-        // Init
-        document.getElementById('apiKeyInput').value = state.apiKey;
-        if (state.apiKey) testApiKey();
+        document.getElementById('apiKey').value = S.apiKey;
+        if (S.apiKey) testApi();
 
         function showError(msg) {
-            const box = document.getElementById('errorBox');
-            box.textContent = '⚠️ ' + msg;
-            box.classList.add('visible');
-            setTimeout(() => box.classList.remove('visible'), 5000);
+            const el = document.getElementById('errorBox');
+            el.textContent = '⚠️ ' + msg;
+            el.classList.add('visible');
+            setTimeout(() => el.classList.remove('visible'), 5000);
         }
 
-        // API Key
-        async function testApiKey() {
-            const key = document.getElementById('apiKeyInput').value.trim();
-            const statusEl = document.getElementById('apiStatus');
-            const textEl = document.getElementById('apiStatusText');
-
-            if (!key) {
-                statusEl.className = 'status disconnected';
-                textEl.textContent = 'Sin conectar';
-                state.apiConnected = false;
-                return;
-            }
-
-            statusEl.className = 'status testing';
-            textEl.textContent = 'Probando...';
-
+        async function testApi() {
+            const key = document.getElementById('apiKey').value.trim();
+            const status = document.getElementById('apiStatus');
+            const text = document.getElementById('apiStatusText');
+            
+            if (!key) { status.className = 'status off'; text.textContent = 'Sin conectar'; S.apiOk = false; return; }
+            
+            status.className = 'status loading'; text.textContent = 'Probando...';
+            
             try {
-                const res = await fetch('https://api.openai.com/v1/models', {
-                    headers: { 'Authorization': `Bearer ${key}` }
-                });
-
-                if (res.ok) {
-                    state.apiKey = key;
-                    state.apiConnected = true;
-                    localStorage.setItem('openai_api_key', key);
-                    statusEl.className = 'status connected';
-                    textEl.textContent = 'Conectado ✓';
-                } else {
-                    throw new Error('Invalid');
-                }
-            } catch (e) {
-                state.apiConnected = false;
-                statusEl.className = 'status disconnected';
-                textEl.textContent = 'Error';
-                showError('API key inválida o sin conexión');
+                const r = await fetch('https://api.openai.com/v1/models', { headers: { 'Authorization': `Bearer ${key}` } });
+                if (r.ok) {
+                    S.apiKey = key; S.apiOk = true;
+                    localStorage.setItem('oai_key', key);
+                    status.className = 'status on'; text.textContent = 'Conectado ✓';
+                } else throw new Error();
+            } catch {
+                S.apiOk = false;
+                status.className = 'status off'; text.textContent = 'Error';
+                showError('API key inválida');
             }
         }
 
-        // Wikipedia Search
         async function searchWiki() {
-            const query = document.getElementById('wikiInput').value.trim();
-            if (!query) return;
-
-            const results = document.getElementById('wikiResults');
-            results.innerHTML = '<div class="wiki-loading">🔍 Buscando en Wikipedia...</div>';
-
+            const q = document.getElementById('wikiSearch').value.trim();
+            if (!q) return;
+            
+            const res = document.getElementById('wikiResults');
+            res.innerHTML = '<div class="wiki-loading">🔍 Buscando...</div>';
+            
             try {
-                const searchUrl = `https://es.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(query)}&format=json&origin=*&srlimit=6`;
-                const searchRes = await fetch(searchUrl);
-                const searchData = await searchRes.json();
-
-                if (!searchData.query || !searchData.query.search || !searchData.query.search.length) {
-                    results.innerHTML = '<div class="wiki-loading">No se encontraron resultados. Intenta otro término.</div>';
+                const url = `https://es.wikipedia.org/w/api.php?action=opensearch&search=${encodeURIComponent(q)}&limit=5&format=json&origin=*`;
+                const r = await fetch(url);
+                const data = await r.json();
+                
+                const titles = data[1] || [];
+                const descs = data[2] || [];
+                
+                if (!titles.length) {
+                    res.innerHTML = '<div class="wiki-loading">No se encontraron resultados</div>';
                     return;
                 }
-
-                const titles = searchData.query.search.map(r => r.title);
-                const detailsUrl = `https://es.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(titles.join('|'))}&prop=extracts|pageimages&exintro=1&explaintext=1&pithumbsize=150&format=json&origin=*`;
-                const detailsRes = await fetch(detailsUrl);
-                const detailsData = await detailsRes.json();
-
-                const pages = Object.values(detailsData.query.pages).filter(p => p.pageid);
-
-                let html = '';
-                pages.forEach(p => {
-                    const thumb = p.thumbnail ? p.thumbnail.source : '';
-                    const extract = p.extract || 'Sin descripción';
-                    const shortExtract = extract.substring(0, 120);
-                    
-                    html += `
-                        <div class="wiki-item" data-title="${p.title.replace(/"/g, '&quot;')}" data-extract="${extract.substring(0, 2000).replace(/"/g, '&quot;')}" data-thumb="${thumb}" onclick="handleWikiClick(this)">
-                            ${thumb ? `<img src="${thumb}" alt="">` : ''}
-                            <div class="wiki-item-info">
-                                <h4>${p.title}</h4>
-                                <p>${shortExtract}...</p>
-                            </div>
-                        </div>
-                    `;
-                });
-
-                results.innerHTML = html;
-
+                
+                res.innerHTML = titles.map((t, i) => `
+                    <div class="wiki-item" onclick="selectWiki('${t.replace(/'/g, "\\'")}')">
+                        <h4>${t}</h4>
+                        <p>${descs[i] || 'Click para cargar...'}</p>
+                    </div>
+                `).join('');
             } catch (e) {
                 console.error(e);
-                results.innerHTML = '<div class="wiki-loading">Error al buscar. Intenta de nuevo.</div>';
+                res.innerHTML = '<div class="wiki-loading">Error de conexión. Intenta de nuevo.</div>';
             }
         }
 
-        function handleWikiClick(el) {
-            const title = el.dataset.title;
-            const extract = el.dataset.extract;
-            const thumb = el.dataset.thumb;
+        async function selectWiki(title) {
+            const res = document.getElementById('wikiResults');
+            res.innerHTML = '<div class="wiki-loading">📄 Cargando artículo...</div>';
             
-            state.wiki = {
-                title: title,
-                extract: extract,
-                thumb: thumb,
-                url: 'https://es.wikipedia.org/wiki/' + encodeURIComponent(title)
-            };
-            
-            document.getElementById('wikiResults').innerHTML = `
-                <div class="wiki-selected">
-                    <h4>✅ Artículo seleccionado: ${title}</h4>
-                    <p>${extract.substring(0, 250)}...</p>
-                    <a href="${state.wiki.url}" target="_blank">Ver en Wikipedia →</a>
-                </div>
-            `;
-
-            document.getElementById('controlsSection').style.display = 'block';
-            document.getElementById('emptyState').classList.add('hidden');
+            try {
+                const url = `https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
+                const r = await fetch(url);
+                
+                if (!r.ok) throw new Error();
+                
+                const data = await r.json();
+                
+                S.wiki = {
+                    title: data.title,
+                    extract: data.extract || 'Sin descripción',
+                    thumb: data.thumbnail?.source || null,
+                    url: data.content_urls?.desktop?.page || `https://es.wikipedia.org/wiki/${encodeURIComponent(title)}`
+                };
+                S.topic = data.title;
+                S.content = data.extract;
+                
+                res.innerHTML = `
+                    <div class="wiki-selected">
+                        <h4>✅ ${S.wiki.title}</h4>
+                        <p>${S.content.substring(0, 250)}...</p>
+                        <a href="${S.wiki.url}" target="_blank">Ver en Wikipedia →</a>
+                    </div>
+                `;
+                
+                document.getElementById('controls').classList.add('visible');
+                document.getElementById('empty').classList.add('hidden');
+            } catch (e) {
+                console.error(e);
+                S.wiki = { title, extract: `Artículo sobre ${title}`, thumb: null, url: `https://es.wikipedia.org/wiki/${encodeURIComponent(title)}` };
+                S.topic = title;
+                S.content = S.wiki.extract;
+                
+                res.innerHTML = `<div class="wiki-selected"><h4>✅ ${title}</h4><p>Artículo cargado</p></div>`;
+                document.getElementById('controls').classList.add('visible');
+                document.getElementById('empty').classList.add('hidden');
+            }
         }
 
-        // Generate Response
-        async function generateResponse(speaker) {
+        async function genResponse(speaker) {
             const bot = BOTS[speaker];
+            const ctx = `TEMA: ${S.topic}\n\nCONTENIDO:\n${S.content}`;
             
-            const context = `ARTÍCULO DE WIKIPEDIA: "${state.wiki.title}"
-
-CONTENIDO:
-${state.wiki.extract}`;
-
-            const historyText = state.history.length > 0 
-                ? '\n\nDEBATE HASTA AHORA:\n' + state.history.map(m => 
-                    `${m.speaker === 'optimist' ? 'Aurora' : 'Umbra'}: ${m.text}`
-                  ).join('\n')
-                : '';
-
-            const prompt = state.history.length === 0
-                ? 'Basándote en el artículo, inicia el debate con tu posición.'
-                : 'Responde al último argumento usando información del artículo.';
-
-            const res = await fetch('https://api.openai.com/v1/chat/completions', {
+            const prompt = S.history.length === 0
+                ? 'Basándote en este artículo, inicia el debate con tu posición.'
+                : 'Historial:\n' + S.history.map(m => `${m.s === 'optimist' ? 'Aurora' : 'Umbra'}: ${m.t}`).join('\n') + '\n\nResponde al último argumento.';
+            
+            const r = await fetch('https://api.openai.com/v1/chat/completions', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${state.apiKey}`
-                },
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${S.apiKey}` },
                 body: JSON.stringify({
                     model: 'gpt-4o-mini',
                     messages: [
                         { role: 'system', content: bot.system },
-                        { role: 'user', content: context + historyText + '\n\n' + prompt }
+                        { role: 'user', content: ctx + '\n\n' + prompt }
                     ],
-                    max_tokens: 250,
+                    max_tokens: 200,
                     temperature: 0.8
                 })
             });
-
-            if (!res.ok) {
-                const err = await res.json().catch(() => ({}));
-                throw new Error(err.error?.message || 'Error de API');
+            
+            if (!r.ok) {
+                const err = await r.json();
+                throw new Error(err.error?.message || 'Error API');
             }
-
-            const data = await res.json();
+            
+            const data = await r.json();
             return data.choices[0].message.content;
         }
 
-        function renderMessage(msg) {
-            const list = document.getElementById('messagesList');
+        function renderMsg(msg) {
+            const list = document.getElementById('msgList');
             const div = document.createElement('div');
-            div.className = `message ${msg.speaker}`;
+            div.className = `message ${msg.s}`;
             div.innerHTML = `
-                <div class="msg-avatar">${BOTS[msg.speaker].avatar}</div>
+                <div class="msg-avatar">${BOTS[msg.s].avatar}</div>
                 <div class="msg-bubble">
                     <div class="msg-header">
-                        <span class="msg-name">${BOTS[msg.speaker].name}</span>
+                        <span class="msg-name">${BOTS[msg.s].name}</span>
                         <span class="msg-time">${msg.time}</span>
                     </div>
-                    <p class="msg-text">${msg.text}</p>
+                    <p class="msg-text">${msg.t}</p>
                 </div>
             `;
             list.appendChild(div);
-            document.getElementById('messagesBox').scrollTop = 99999;
+            document.getElementById('messages').scrollTop = 99999;
         }
 
-        function showTyping(speaker) {
-            document.getElementById(speaker === 'optimist' ? 'typingOpt' : 'typingSkep').classList.add('visible');
-            document.getElementById('messagesBox').scrollTop = 99999;
-        }
-
-        function hideTyping() {
-            document.getElementById('typingOpt').classList.remove('visible');
-            document.getElementById('typingSkep').classList.remove('visible');
-        }
+        function showTyping(s) { document.getElementById(s === 'optimist' ? 'typingOpt' : 'typingSkep').classList.add('visible'); }
+        function hideTyping() { document.getElementById('typingOpt').classList.remove('visible'); document.getElementById('typingSkep').classList.remove('visible'); }
 
         function updateUI() {
-            const { isDebating, messages, rounds, maxRounds, thinking, autoMode, wiki } = state;
-
-            document.getElementById('startBtn').classList.toggle('hidden', isDebating);
-            document.getElementById('nextBtn').classList.toggle('hidden', !isDebating);
-            document.getElementById('autoBtn').classList.toggle('hidden', !isDebating);
-            document.getElementById('stopBtn').classList.toggle('hidden', !isDebating);
-            document.getElementById('resetBtn').classList.toggle('hidden', messages.length === 0 && !wiki);
-            document.getElementById('debatersIntro').classList.toggle('hidden', isDebating);
-            document.getElementById('messagesBox').classList.toggle('visible', messages.length > 0);
-            document.getElementById('articleCard').classList.toggle('visible', isDebating);
-
-            document.getElementById('roundsSelect').disabled = isDebating;
-
+            const { debating, msgs, round, maxRound, thinking, auto } = S;
+            
+            document.getElementById('startBtn').classList.toggle('hidden', debating);
+            document.getElementById('nextBtn').classList.toggle('hidden', !debating);
+            document.getElementById('autoBtn').classList.toggle('hidden', !debating);
+            document.getElementById('stopBtn').classList.toggle('hidden', !debating);
+            document.getElementById('resetBtn').classList.toggle('hidden', msgs.length === 0);
+            document.getElementById('debaters').classList.toggle('hidden', debating);
+            document.getElementById('messages').classList.toggle('visible', msgs.length > 0);
+            document.getElementById('articleCard').classList.toggle('visible', debating);
+            
+            document.getElementById('rounds').disabled = debating;
+            
             const nextBtn = document.getElementById('nextBtn');
             const autoBtn = document.getElementById('autoBtn');
-
-            if (rounds >= maxRounds) {
-                nextBtn.textContent = '✅ Fin';
-                nextBtn.disabled = true;
+            
+            if (round >= maxRound) {
+                nextBtn.textContent = '✅ Fin'; nextBtn.disabled = true;
                 autoBtn.classList.add('hidden');
             } else if (thinking) {
-                nextBtn.textContent = '💭 Pensando...';
-                nextBtn.disabled = true;
+                nextBtn.textContent = '💭...'; nextBtn.disabled = true;
             } else {
-                nextBtn.textContent = '▶️ Siguiente';
-                nextBtn.disabled = false;
+                nextBtn.textContent = '▶️ Siguiente'; nextBtn.disabled = false;
             }
-
-            autoBtn.textContent = autoMode ? '⏸️ Pausar' : '⚡ Auto';
-            autoBtn.className = autoMode ? 'btn-stop' : 'btn-auto';
-
-            if (wiki && isDebating) {
-                document.getElementById('articleTitle').textContent = wiki.title;
-                document.getElementById('articleExtract').textContent = wiki.extract.substring(0, 150) + '...';
+            
+            autoBtn.textContent = auto ? '⏸️' : '⚡ Auto';
+            autoBtn.className = auto ? 'btn-stop' : 'btn-auto';
+            
+            if (S.wiki) {
+                document.getElementById('articleTitle').textContent = S.wiki.title;
+                document.getElementById('articleDesc').textContent = S.content.substring(0, 150) + '...';
                 const img = document.getElementById('articleImg');
-                if (wiki.thumb) {
-                    img.src = wiki.thumb;
-                    img.style.display = 'block';
-                } else {
-                    img.style.display = 'none';
-                }
+                if (S.wiki.thumb) { img.src = S.wiki.thumb; img.style.display = 'block'; }
+                else img.style.display = 'none';
             }
-
-            document.getElementById('currentRound').textContent = rounds;
-            document.getElementById('maxRounds').textContent = maxRounds;
+            
+            document.getElementById('curRound').textContent = round;
+            document.getElementById('maxRound').textContent = maxRound;
         }
 
-        async function addMessage(speaker) {
-            state.thinking = true;
+        async function addMsg(speaker) {
+            S.thinking = true;
             updateUI();
             showTyping(speaker);
-
+            
             try {
-                const text = await generateResponse(speaker);
-                const msg = { speaker, text, time: new Date().toLocaleTimeString() };
-                
-                state.messages.push(msg);
-                state.history.push({ speaker, text });
-                
+                const text = await genResponse(speaker);
+                const msg = { s: speaker, t: text, time: new Date().toLocaleTimeString() };
+                S.msgs.push(msg);
+                S.history.push({ s: speaker, t: text });
                 hideTyping();
-                renderMessage(msg);
-                
-                if (speaker === 'skeptic') state.rounds++;
+                renderMsg(msg);
+                if (speaker === 'skeptic') S.round++;
             } catch (e) {
                 hideTyping();
                 showError(e.message);
-                state.autoMode = false;
+                S.auto = false;
             }
-
-            state.thinking = false;
+            
+            S.thinking = false;
             updateUI();
         }
 
         async function startDebate() {
-            if (!state.apiConnected) {
-                showError('Primero configura tu API key');
-                return;
-            }
-            if (!state.wiki) {
-                showError('Primero selecciona un artículo de Wikipedia');
-                return;
-            }
-
-            state.maxRounds = parseInt(document.getElementById('roundsSelect').value);
-            state.messages = [];
-            state.history = [];
-            state.rounds = 0;
-            state.isDebating = true;
-
-            document.getElementById('messagesList').innerHTML = '';
+            if (!S.apiOk) { showError('Configura tu API key primero'); return; }
+            if (!S.wiki) { showError('Selecciona un artículo primero'); return; }
+            
+            S.maxRound = parseInt(document.getElementById('rounds').value);
+            S.msgs = []; S.history = []; S.round = 0; S.debating = true;
+            document.getElementById('msgList').innerHTML = '';
             updateUI();
-
-            await addMessage('optimist');
+            await addMsg('optimist');
         }
 
         async function nextTurn() {
-            if (state.rounds >= state.maxRounds || state.thinking) return;
-            const speaker = state.messages.length % 2 === 0 ? 'optimist' : 'skeptic';
-            await addMessage(speaker);
+            if (S.round >= S.maxRound || S.thinking) return;
+            await addMsg(S.msgs.length % 2 === 0 ? 'optimist' : 'skeptic');
         }
 
         function toggleAuto() {
-            state.autoMode = !state.autoMode;
+            S.auto = !S.auto;
             updateUI();
-            if (state.autoMode) runAuto();
-            else if (state.autoTimer) {
-                clearTimeout(state.autoTimer);
-                state.autoTimer = null;
-            }
+            if (S.auto) runAuto();
+            else if (S.autoTimer) { clearTimeout(S.autoTimer); S.autoTimer = null; }
         }
 
         async function runAuto() {
-            if (!state.autoMode || state.rounds >= state.maxRounds || state.thinking) {
-                state.autoMode = false;
-                updateUI();
-                return;
-            }
+            if (!S.auto || S.round >= S.maxRound || S.thinking) { S.auto = false; updateUI(); return; }
             await nextTurn();
-            if (state.autoMode && state.rounds < state.maxRounds) {
-                state.autoTimer = setTimeout(runAuto, 800);
-            } else {
-                state.autoMode = false;
-                updateUI();
-            }
+            if (S.auto && S.round < S.maxRound) S.autoTimer = setTimeout(runAuto, 800);
+            else { S.auto = false; updateUI(); }
         }
 
         function stopDebate() {
-            state.isDebating = false;
-            state.autoMode = false;
-            if (state.autoTimer) clearTimeout(state.autoTimer);
-            hideTyping();
-            updateUI();
+            S.debating = false; S.auto = false;
+            if (S.autoTimer) clearTimeout(S.autoTimer);
+            hideTyping(); updateUI();
         }
 
-        function resetDebate() {
-            state.wiki = null;
-            state.messages = [];
-            state.history = [];
-            state.isDebating = false;
-            state.rounds = 0;
-            state.autoMode = false;
-            if (state.autoTimer) clearTimeout(state.autoTimer);
-
-            document.getElementById('wikiInput').value = '';
+        function resetAll() {
+            S.wiki = null; S.topic = ''; S.content = '';
+            S.msgs = []; S.history = []; S.debating = false; S.round = 0;
+            S.auto = false;
+            if (S.autoTimer) clearTimeout(S.autoTimer);
+            
+            document.getElementById('wikiSearch').value = '';
             document.getElementById('wikiResults').innerHTML = '';
-            document.getElementById('messagesList').innerHTML = '';
-            document.getElementById('controlsSection').style.display = 'none';
-            document.getElementById('emptyState').classList.remove('hidden');
-            hideTyping();
-            updateUI();
+            document.getElementById('msgList').innerHTML = '';
+            document.getElementById('controls').classList.remove('visible');
+            document.getElementById('empty').classList.remove('hidden');
+            hideTyping(); updateUI();
         }
 
-        document.getElementById('wikiInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') searchWiki();
-        });
-
-        document.getElementById('apiKeyInput').addEventListener('input', () => {
-            state.apiConnected = false;
-            document.getElementById('apiStatus').className = 'status disconnected';
-            document.getElementById('apiStatusText').textContent = 'Sin verificar';
-        });
-
+        document.getElementById('wikiSearch').addEventListener('keydown', e => { if (e.key === 'Enter') searchWiki(); });
+        document.getElementById('apiKey').addEventListener('change', () => { S.apiOk = false; document.getElementById('apiStatus').className = 'status off'; document.getElementById('apiStatusText').textContent = 'Sin verificar'; });
+        
         updateUI();
     </script>
 </body>
